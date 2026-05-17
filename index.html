@@ -155,8 +155,9 @@
     font-size: clamp(22px, 2.6vw, 32px);
     color: var(--ink-2);
     margin: 0 0 14px;
-    transform: rotate(-1.5deg) translateX(8px);
-    display: inline-block;
+    transform: rotate(-1.5deg);
+    display: block;
+    max-width: 60%;
     transition: opacity .25s ease;
   }
   .hero-strap .arrow {
@@ -172,13 +173,16 @@
     margin: 28px 0 24px;
     position: relative;
     z-index: 5;
-    display: inline-flex;
+    display: flex;
+    flex-wrap: wrap;
     gap: 6px;
     padding: 8px 10px 10px;
     background: var(--paper-2);
     border: 1.5px solid var(--ink);
     box-shadow: 3px 4px 0 rgba(27,24,20,0.16);
     transform: rotate(-0.6deg);
+    width: fit-content;
+    max-width: 60%;
   }
   .pov::before {
     content: "";
@@ -225,6 +229,7 @@
     margin-top: 6px;
     position: relative;
     z-index: 5;
+    max-width: 60%;
   }
   .chip {
     padding: 8px 14px;
@@ -345,7 +350,6 @@
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 742 / 2800;
   }
   .me-sticker .cap {
     display: block;
