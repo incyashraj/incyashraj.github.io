@@ -100,7 +100,7 @@
     position: relative;
     padding: 60px 6vw 90px;
     min-height: 92vh;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .hero-name-full {
@@ -155,9 +155,8 @@
     font-size: clamp(22px, 2.6vw, 32px);
     color: var(--ink-2);
     margin: 0 0 14px;
-    transform: rotate(-1.5deg);
-    display: block;
-    max-width: 60%;
+    transform: rotate(-1.5deg) translateX(8px);
+    display: inline-block;
     transition: opacity .25s ease;
   }
   .hero-strap .arrow {
@@ -174,6 +173,8 @@
     position: relative;
     z-index: 5;
     display: flex;
+    width: fit-content;
+    max-width: 100%;
     flex-wrap: wrap;
     gap: 6px;
     padding: 8px 10px 10px;
@@ -181,8 +182,6 @@
     border: 1.5px solid var(--ink);
     box-shadow: 3px 4px 0 rgba(27,24,20,0.16);
     transform: rotate(-0.6deg);
-    width: fit-content;
-    max-width: 60%;
   }
   .pov::before {
     content: "";
@@ -229,7 +228,6 @@
     margin-top: 6px;
     position: relative;
     z-index: 5;
-    max-width: 60%;
   }
   .chip {
     padding: 8px 14px;
@@ -265,13 +263,13 @@
   /* big sticky CTA card */
   .sticky-card {
     position: absolute;
-    bottom: 50px;
-    left: 6vw;
-    width: 290px;
+    bottom: 60px;
+    right: 6vw;
+    width: 280px;
     background: var(--yellow);
     color: var(--ink);
     padding: 22px;
-    transform: rotate(-3deg);
+    transform: rotate(4deg);
     box-shadow: 4px 6px 0 rgba(27,24,20,0.18);
     z-index: 6;
   }
@@ -315,14 +313,13 @@
     z-index: 7;
   }
   .annot.a1 { display: none; }
-  @media (max-width: 1100px) { .sticky-card { position: relative; bottom: auto; left: auto; margin: 30px auto 0; transform: rotate(-1deg); } }
 
   /* ----- ME STICKER ----- */
   .me-sticker {
     position: absolute;
-    top: clamp(280px, 26vw, 380px);
-    right: 3vw;
-    width: 130px;
+    top: 70px;
+    right: 5vw;
+    width: 140px;
     padding: 10px 10px 14px;
     background: #FFFFFF;
     border: 1.5px solid var(--ink);
@@ -371,8 +368,8 @@
   /* hand-written "hi that's me" pointing arrow */
   .me-hi {
     position: absolute;
-    top: clamp(360px, 32vw, 480px);
-    right: calc(3vw + 150px);
+    top: 220px;
+    right: calc(5vw + 160px);
     z-index: 7;
     transform: rotate(-8deg);
     pointer-events: none;
@@ -389,11 +386,11 @@
   .me-hi svg { flex: 0 0 auto; }
 
   @media (max-width: 1100px) {
-    .me-sticker { width: 110px; top: clamp(220px, 30vw, 320px); right: 24px; }
+    .me-sticker { width: 100px; top: 60px; right: 18px; }
     .me-hi { display: none; }
   }
   @media (max-width: 700px) {
-    .me-sticker { width: 92px; top: clamp(180px, 30vw, 250px); right: 14px; }
+    .me-sticker { width: 76px; top: 40px; right: 12px; }
   }
 
   /* ---------- SECTION HEAD ---------- */
@@ -849,7 +846,7 @@
     .l36-card.l5 { transform: rotate(-1deg) !important; }
     .arrow-svg { display: none; }
     .prev-grid { grid-template-columns: 1fr; }
-    .sticky-card { position: relative; bottom: auto; left: auto; margin: 30px auto 0; }
+    .sticky-card { position: relative; bottom: auto; right: auto; margin: 30px auto 0; transform: rotate(-1deg); }
     .annot { display: none; }
     .float { display: none; }
     .links { grid-template-columns: 1fr; }
