@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>From Bouclier to Layer36 — what permissions taught me — @incyashraj</title>
+<meta name="description" content="Building an ERC-7579 permission layer for AI agents before building a runtime wasn't accidental. Here's the thread." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@500;700&family=Inter:wght@400;500;700&family=Space+Mono:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400;1,9..144,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F5EBD7; --paper-2: #FDF6E3; --ink: #1B1814; --ink-2: #44403B;
+    --red: #D14B3E; --blue: #2A5E8E; --yellow: #F5C944; --green: #5A8C5A;
+    --tape: rgba(245,201,68,0.55);
+    --display: "Archivo Black", system-ui, sans-serif;
+    --serif: "Fraunces", Georgia, serif; --hand: "Caveat", cursive;
+    --sans: "Inter", system-ui, sans-serif; --mono: "Space Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper); color: var(--ink); font-family: var(--serif);
+    font-size: 18px; line-height: 1.75; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(rgba(27,24,20,0.04) 1px, transparent 1px), radial-gradient(rgba(27,24,20,0.03) 1.2px, transparent 1.2px);
+    background-size: 4px 4px, 9px 9px; background-position: 0 0, 2px 2px;
+  }
+  a { color: inherit; text-decoration: none; }
+  .top { border-bottom: 2px dashed var(--ink); padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 12px; flex-wrap: wrap; gap: 10px; }
+  .top .badge { background: var(--ink); color: var(--paper); padding: 4px 10px; font-family: var(--hand); font-size: 18px; transform: rotate(-2deg); display: inline-block; }
+  .top .back { font-family: var(--mono); font-size: 12px; border-bottom: 2px solid transparent; padding-bottom: 2px; transition: border-color .2s; }
+  .top .back:hover { border-color: var(--red); }
+  .post-header { max-width: 720px; margin: 60px auto 0; padding: 0 32px; }
+  .post-meta { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; color: var(--red); text-transform: uppercase; margin-bottom: 20px; display: flex; gap: 24px; flex-wrap: wrap; }
+  .post-header h1 { font-family: var(--display); font-size: clamp(36px, 6vw, 68px); line-height: 0.95; letter-spacing: -0.03em; text-transform: lowercase; margin: 0 0 24px; }
+  .post-header h1 .hl { background: linear-gradient(transparent 55%, var(--yellow) 55%, var(--yellow) 95%, transparent 95%); padding: 0 4px; }
+  .post-lede { font-family: var(--hand); font-size: clamp(22px, 2.8vw, 30px); color: var(--ink-2); transform: rotate(-0.8deg); display: block; margin-bottom: 40px; line-height: 1.3; }
+  .divider { max-width: 720px; margin: 0 auto 48px; border: none; border-top: 2px dashed var(--ink-2); }
+  .post-body { max-width: 720px; margin: 0 auto 80px; padding: 0 32px; }
+  .post-body p { margin: 0 0 1.6em; }
+  .post-body h2 { font-family: var(--display); font-size: clamp(26px, 3.5vw, 40px); line-height: 1; letter-spacing: -0.025em; text-transform: lowercase; margin: 2.2em 0 0.6em; }
+  .post-body h3 { font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--red); margin: 2em 0 0.5em; }
+  .post-body strong { color: var(--ink); }
+  .post-body a { border-bottom: 2px solid var(--yellow); transition: border-color .2s; }
+  .post-body a:hover { border-color: var(--red); }
+  .post-body blockquote { margin: 2em 0; padding: 20px 24px; background: var(--paper-2); border: 1.5px solid var(--ink); box-shadow: 3px 4px 0 rgba(27,24,20,0.14); transform: rotate(-0.4deg); font-family: var(--hand); font-size: clamp(20px, 2.4vw, 26px); color: var(--ink-2); line-height: 1.4; position: relative; }
+  .post-body blockquote::before { content: ""; position: absolute; top: -12px; left: 24px; width: 60px; height: 18px; background: var(--tape); transform: rotate(-3deg); }
+  .post-body code { font-family: var(--mono); font-size: 0.82em; background: var(--paper-2); border: 1px solid rgba(27,24,20,0.15); padding: 2px 6px; }
+  .post-footer { max-width: 720px; margin: 0 auto 80px; padding: 40px 32px 0; border-top: 2px dashed var(--ink-2); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-family: var(--mono); font-size: 12px; color: var(--ink-2); }
+  .post-footer a { font-family: var(--hand); font-size: 22px; color: var(--red); border-bottom: 2px solid transparent; transition: border-color .2s; }
+  .post-footer a:hover { border-color: var(--red); }
+  footer { text-align: center; padding: 20px 20px 60px; font-family: var(--hand); font-size: 20px; color: var(--ink-2); border-top: 2px dashed var(--ink); }
+  footer .stars { letter-spacing: 0.4em; font-family: var(--display); color: var(--red); }
+  @media (max-width: 600px) { .post-header, .post-body, .post-footer { padding: 0 20px; } .top { padding: 14px 20px; } }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <a href="/" class="badge">ZINE</a>
+  <a href="/#writing" class="back">← back to writing</a>
+  <span style="font-family:var(--hand);font-size:20px;">vol. 36</span>
+</div>
+
+<header class="post-header">
+  <div class="post-meta"><span>2026 · 02</span><span>9 min read</span><span>@incyashraj</span></div>
+  <h1>from <span class="hl">bouclier</span> to layer36 — what permissions taught me.</h1>
+  <span class="post-lede">Building a permission layer for AI agents on-chain before building a runtime wasn't accidental. Here's the thread.</span>
+</header>
+
+<hr class="divider" />
+
+<article class="post-body">
+
+  <p>Bouclier was not supposed to lead here. I built it because I was genuinely worried about AI agents executing transactions on EVM chains with no meaningful constraint on what they could do. The problem felt urgent and concrete: agents that could drain wallets, that could sign anything their context window told them to sign, that had no principled permission boundary between "things I'm authorised to do" and "things I could technically do."</p>
+
+  <p>So I built a permission layer. ERC-7579 as the module standard, five deployed contracts, a full invariant fuzzing suite at 128,000 calls, SDKs in TypeScript, Python, and LangChain. Live on Base Sepolia. The thing worked.</p>
+
+  <p>But building it taught me something I didn't expect.</p>
+
+  <h2>the lesson</h2>
+
+  <p>On-chain permission discipline is easy to reason about because the environment enforces it. Every state transition is a signed transaction. Every capability grant is recorded on a ledger that doesn't lie. You can't have ambient authority because there is no ambient environment — there is only the state you've been explicitly handed.</p>
+
+  <p>Off-chain, all of this collapses. The same AI agent, running as a subprocess on your machine, has access to your filesystem, your network, your environment variables, everything in your process's inherited authority. The careful capability discipline you built on-chain evaporates the moment the agent touches anything outside the chain.</p>
+
+  <blockquote>The permission problem isn't on-chain or off-chain. It's everywhere software runs with more authority than it declared.</blockquote>
+
+  <p>I kept asking: what would it look like to have the same quality of permission discipline for software in general? Not just agents, not just on EVM chains — all software, on any host.</p>
+
+  <h2>the connection to karana</h2>
+
+  <p>Before Bouclier I built Karana OS — an intent-driven OS for IoT devices with a custom kernel, scheduler, and hardware abstraction layer. 200,000 lines of Rust, C, and Assembly. The AI task layer chains device capabilities at runtime based on inferred user goals.</p>
+
+  <p>That project was a deep education in what happens when you don't think carefully about the boundary between your logic and the platform underneath. IoT devices run on a dozen different chip architectures with different syscall conventions, different peripheral models, different ideas about what a "process" is. Every hardware abstraction I wrote was a small tax on portability — a place where the logic became slightly more married to one specific host.</p>
+
+  <p>Two projects. One pointed at permission. The other pointed at portability. Both kept arriving at the same boundary: the line between what a piece of software is and what the host environment is willing to let it do.</p>
+
+  <h2>what layer36 is trying to do</h2>
+
+  <p>Layer36 is the attempt to address both problems at once. WebAssembly as the portable execution format — the same <code>.wasm</code> binary runs deterministically on any conforming runtime, no recompilation per host. UAPI as the single call surface — one dialect for files, processes, and network, translated by host adapters rather than reimplemented per platform. UCap as the permission layer — capability-checked by default, deny everything not explicitly granted.</p>
+
+  <p>The Bouclier experience shaped UCap directly. The on-chain model worked because permissions were explicit, unforgeable, and tied to specific resources rather than granted in bulk. UCap is the same discipline applied to a software runtime: capabilities name specific resources, grants are auditable, and the default is deny.</p>
+
+  <p>Building Bouclier taught me what a good permission model feels like from the inside. Building Karana taught me what a bad portability story costs over time. Layer36 exists because I couldn't find a runtime that took both problems seriously at once.</p>
+
+  <blockquote>All of it led here. Every project was a class on a different part of the same problem.</blockquote>
+
+</article>
+
+<div class="post-footer">
+  <span>© 2026 · Yashraj Bhushan Pardeshi</span>
+  <a href="mailto:incyashraj@gmail.com">reply by email →</a>
+</div>
+
+<footer>
+  <div class="stars">✶ ✶ ✶</div>
+  hand-pasted in HTML. © 2026 · Yashraj Bhushan Pardeshi.
+</footer>
+
+</body>
+</html>

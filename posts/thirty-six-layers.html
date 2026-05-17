@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The thirty-six layers, briefly explained — @incyashraj</title>
+<meta name="description" content="The name isn't arbitrary. Here's what it means and why it stuck." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@500;700&family=Inter:wght@400;500;700&family=Space+Mono:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400;1,9..144,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F5EBD7; --paper-2: #FDF6E3; --ink: #1B1814; --ink-2: #44403B;
+    --red: #D14B3E; --yellow: #F5C944;
+    --tape: rgba(245,201,68,0.55);
+    --display: "Archivo Black", system-ui, sans-serif;
+    --serif: "Fraunces", Georgia, serif; --hand: "Caveat", cursive;
+    --sans: "Inter", system-ui, sans-serif; --mono: "Space Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper); color: var(--ink); font-family: var(--serif);
+    font-size: 18px; line-height: 1.75; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(rgba(27,24,20,0.04) 1px, transparent 1px), radial-gradient(rgba(27,24,20,0.03) 1.2px, transparent 1.2px);
+    background-size: 4px 4px, 9px 9px; background-position: 0 0, 2px 2px;
+  }
+  a { color: inherit; text-decoration: none; }
+  .top { border-bottom: 2px dashed var(--ink); padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 12px; flex-wrap: wrap; gap: 10px; }
+  .top .badge { background: var(--ink); color: var(--paper); padding: 4px 10px; font-family: var(--hand); font-size: 18px; transform: rotate(-2deg); display: inline-block; }
+  .top .back { font-family: var(--mono); font-size: 12px; border-bottom: 2px solid transparent; padding-bottom: 2px; transition: border-color .2s; }
+  .top .back:hover { border-color: var(--red); }
+  .post-header { max-width: 720px; margin: 60px auto 0; padding: 0 32px; }
+  .post-meta { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; color: var(--red); text-transform: uppercase; margin-bottom: 20px; display: flex; gap: 24px; flex-wrap: wrap; }
+  .post-header h1 { font-family: var(--display); font-size: clamp(36px, 6vw, 68px); line-height: 0.95; letter-spacing: -0.03em; text-transform: lowercase; margin: 0 0 24px; }
+  .post-header h1 .hl { background: linear-gradient(transparent 55%, var(--yellow) 55%, var(--yellow) 95%, transparent 95%); padding: 0 4px; }
+  .post-lede { font-family: var(--hand); font-size: clamp(22px, 2.8vw, 30px); color: var(--ink-2); transform: rotate(-0.8deg); display: block; margin-bottom: 40px; line-height: 1.3; }
+  .divider { max-width: 720px; margin: 0 auto 48px; border: none; border-top: 2px dashed var(--ink-2); }
+  .post-body { max-width: 720px; margin: 0 auto 80px; padding: 0 32px; }
+  .post-body p { margin: 0 0 1.6em; }
+  .post-body h2 { font-family: var(--display); font-size: clamp(26px, 3.5vw, 40px); line-height: 1; letter-spacing: -0.025em; text-transform: lowercase; margin: 2.2em 0 0.6em; }
+  .post-body h3 { font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--red); margin: 2em 0 0.5em; }
+  .post-body strong { color: var(--ink); }
+  .post-body a { border-bottom: 2px solid var(--yellow); transition: border-color .2s; }
+  .post-body a:hover { border-color: var(--red); }
+  .post-body blockquote { margin: 2em 0; padding: 20px 24px; background: var(--paper-2); border: 1.5px solid var(--ink); box-shadow: 3px 4px 0 rgba(27,24,20,0.14); transform: rotate(-0.4deg); font-family: var(--hand); font-size: clamp(20px, 2.4vw, 26px); color: var(--ink-2); line-height: 1.4; position: relative; }
+  .post-body blockquote::before { content: ""; position: absolute; top: -12px; left: 24px; width: 60px; height: 18px; background: var(--tape); transform: rotate(-3deg); }
+  .post-footer { max-width: 720px; margin: 0 auto 80px; padding: 40px 32px 0; border-top: 2px dashed var(--ink-2); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-family: var(--mono); font-size: 12px; color: var(--ink-2); }
+  .post-footer a { font-family: var(--hand); font-size: 22px; color: var(--red); border-bottom: 2px solid transparent; transition: border-color .2s; }
+  .post-footer a:hover { border-color: var(--red); }
+  footer { text-align: center; padding: 20px 20px 60px; font-family: var(--hand); font-size: 20px; color: var(--ink-2); border-top: 2px dashed var(--ink); }
+  footer .stars { letter-spacing: 0.4em; font-family: var(--display); color: var(--red); }
+  @media (max-width: 600px) { .post-header, .post-body, .post-footer { padding: 0 20px; } .top { padding: 14px 20px; } }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <a href="/" class="badge">ZINE</a>
+  <a href="/#writing" class="back">← back to writing</a>
+  <span style="font-family:var(--hand);font-size:20px;">vol. 36</span>
+</div>
+
+<header class="post-header">
+  <div class="post-meta"><span>2026 · 01</span><span>5 min read</span><span>@incyashraj</span></div>
+  <h1>the <span class="hl">thirty-six</span> layers, briefly explained.</h1>
+  <span class="post-lede">The name isn't arbitrary. Here's what it means and why it stuck.</span>
+</header>
+
+<hr class="divider" />
+
+<article class="post-body">
+
+  <p>People ask about the name. Layer36 — where does that come from? Is it a reference to the OSI model? A joke about how many abstraction layers software already has? A meaningful number with a clean origin story?</p>
+
+  <p>The honest answer is a little of all three, in a way I find useful rather than embarrassing.</p>
+
+  <h2>the stack as it actually exists</h2>
+
+  <p>When you run a program, you are standing on an enormous pile of abstractions. Hardware, firmware, kernel, syscall interface, libc or equivalent, language runtime, package manager, framework, your code. Each layer was invented by someone who wanted to think at a higher level of abstraction without having to care about the layer below.</p>
+
+  <p>This is, mostly, a good thing. It's why programmers today can build things that would have seemed impossible twenty years ago. The stack is the product of decades of people solving hard problems so you don't have to re-solve them.</p>
+
+  <p>But the stack also hides costs. Every layer is a place where portability can break. Every layer is a place where a permission assumption can sneak in. Every layer is a place where the behaviour of your code depends on decisions made by people who weren't thinking about your specific use case.</p>
+
+  <blockquote>You inherit the decisions of every layer below you. Most of the time you don't know what those decisions were.</blockquote>
+
+  <h2>where layer36 sits</h2>
+
+  <p>Layer36 is not trying to replace the stack. It's trying to add one more layer — a carefully designed one — that sits between your application logic and the platform-specific layers below it. The runtime layer.</p>
+
+  <p>That layer does three things: it takes a portable execution format (<code>.wasm</code>), it provides a single API surface (UAPI) that your app talks to instead of talking to the OS directly, and it enforces capability discipline (UCap) at the boundary between your app and everything below.</p>
+
+  <p>36 is a small number. It's meant to suggest something minimal — a layer that adds what you need without adding a lot of what you don't. It's also 6 squared, which I find satisfying in the same way I find good system design satisfying: there's structure under the surface, even when the surface looks simple.</p>
+
+  <h2>why naming matters</h2>
+
+  <p>I spent a lot of time at UZH studying distributed systems, which are systems defined entirely by their layers and their interfaces. The name of a layer matters because it shapes how you think about what belongs there and what doesn't. A layer called "network" pulls in assumptions about protocols. A layer called "transport" pulls in different ones.</p>
+
+  <p>"Layer36" is a name that says: there is a layer here, it is purposefully minimal, and it sits in a specific place in the stack. The number is small enough to be memorable and specific enough to not mean "everything."</p>
+
+  <p>Also, I like names that carry a little weight without explaining themselves immediately. You have to spend a moment with it. That felt right for something I expect to be spending a lot of time with.</p>
+
+</article>
+
+<div class="post-footer">
+  <span>© 2026 · Yashraj Bhushan Pardeshi</span>
+  <a href="mailto:incyashraj@gmail.com">reply by email →</a>
+</div>
+
+<footer>
+  <div class="stars">✶ ✶ ✶</div>
+  hand-pasted in HTML. © 2026 · Yashraj Bhushan Pardeshi.
+</footer>
+
+</body>
+</html>

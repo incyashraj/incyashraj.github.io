@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Why software should be portable like files — @incyashraj</title>
+<meta name="description" content="A PDF just works everywhere. Why doesn't software? The idea behind Layer36." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@500;700&family=Inter:wght@400;500;700&family=Space+Mono:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400;1,9..144,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F5EBD7; --paper-2: #FDF6E3; --ink: #1B1814; --ink-2: #44403B;
+    --red: #D14B3E; --blue: #2A5E8E; --yellow: #F5C944; --green: #5A8C5A;
+    --tape: rgba(245,201,68,0.55); --tape-2: rgba(232,155,155,0.55);
+    --display: "Archivo Black", system-ui, sans-serif;
+    --serif: "Fraunces", Georgia, serif; --hand: "Caveat", cursive;
+    --sans: "Inter", system-ui, sans-serif; --mono: "Space Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper); color: var(--ink); font-family: var(--serif);
+    font-size: 18px; line-height: 1.75; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(rgba(27,24,20,0.04) 1px, transparent 1px), radial-gradient(rgba(27,24,20,0.03) 1.2px, transparent 1.2px);
+    background-size: 4px 4px, 9px 9px; background-position: 0 0, 2px 2px;
+  }
+  a { color: inherit; text-decoration: none; }
+  .top { border-bottom: 2px dashed var(--ink); padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 12px; flex-wrap: wrap; gap: 10px; }
+  .top .badge { background: var(--ink); color: var(--paper); padding: 4px 10px; font-family: var(--hand); font-size: 18px; transform: rotate(-2deg); display: inline-block; }
+  .top .back { font-family: var(--mono); font-size: 12px; border-bottom: 2px solid transparent; padding-bottom: 2px; transition: border-color .2s; }
+  .top .back:hover { border-color: var(--red); }
+  .post-header { max-width: 720px; margin: 60px auto 0; padding: 0 32px; }
+  .post-meta { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; color: var(--red); text-transform: uppercase; margin-bottom: 20px; display: flex; gap: 24px; flex-wrap: wrap; }
+  .post-header h1 { font-family: var(--display); font-size: clamp(36px, 6vw, 68px); line-height: 0.95; letter-spacing: -0.03em; text-transform: lowercase; margin: 0 0 24px; }
+  .post-header h1 .hl { background: linear-gradient(transparent 55%, var(--yellow) 55%, var(--yellow) 95%, transparent 95%); padding: 0 4px; }
+  .post-lede { font-family: var(--hand); font-size: clamp(22px, 2.8vw, 30px); color: var(--ink-2); transform: rotate(-0.8deg); display: block; margin-bottom: 40px; line-height: 1.3; }
+  .divider { max-width: 720px; margin: 0 auto 48px; padding: 0 32px; border: none; border-top: 2px dashed var(--ink-2); }
+  .post-body { max-width: 720px; margin: 0 auto 80px; padding: 0 32px; }
+  .post-body p { margin: 0 0 1.6em; }
+  .post-body h2 { font-family: var(--display); font-size: clamp(26px, 3.5vw, 40px); line-height: 1; letter-spacing: -0.025em; text-transform: lowercase; margin: 2.2em 0 0.6em; }
+  .post-body h3 { font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--red); margin: 2em 0 0.5em; }
+  .post-body strong { color: var(--ink); }
+  .post-body a { border-bottom: 2px solid var(--yellow); transition: border-color .2s; }
+  .post-body a:hover { border-color: var(--red); }
+  .post-body blockquote { margin: 2em 0; padding: 20px 24px; background: var(--paper-2); border: 1.5px solid var(--ink); box-shadow: 3px 4px 0 rgba(27,24,20,0.14); transform: rotate(-0.4deg); font-family: var(--hand); font-size: clamp(20px, 2.4vw, 26px); color: var(--ink-2); line-height: 1.4; position: relative; }
+  .post-body blockquote::before { content: ""; position: absolute; top: -12px; left: 24px; width: 60px; height: 18px; background: var(--tape); transform: rotate(-3deg); }
+  .post-body code { font-family: var(--mono); font-size: 0.82em; background: var(--paper-2); border: 1px solid rgba(27,24,20,0.15); padding: 2px 6px; }
+  .post-footer { max-width: 720px; margin: 0 auto 80px; padding: 40px 32px 0; border-top: 2px dashed var(--ink-2); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-family: var(--mono); font-size: 12px; color: var(--ink-2); }
+  .post-footer a { font-family: var(--hand); font-size: 22px; color: var(--red); border-bottom: 2px solid transparent; transition: border-color .2s; }
+  .post-footer a:hover { border-color: var(--red); }
+  footer { text-align: center; padding: 20px 20px 60px; font-family: var(--hand); font-size: 20px; color: var(--ink-2); border-top: 2px dashed var(--ink); }
+  footer .stars { letter-spacing: 0.4em; font-family: var(--display); color: var(--red); }
+  @media (max-width: 600px) { .post-header, .post-body, .post-footer { padding: 0 20px; } .top { padding: 14px 20px; } }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <a href="/" class="badge">ZINE</a>
+  <a href="/#writing" class="back">← back to writing</a>
+  <span style="font-family:var(--hand);font-size:20px;">vol. 36</span>
+</div>
+
+<header class="post-header">
+  <div class="post-meta"><span>2026 · 04</span><span>8 min read</span><span>@incyashraj</span></div>
+  <h1>why software should be <span class="hl">portable</span> like files.</h1>
+  <span class="post-lede">A PDF just works everywhere. An .mp3 plays on everything. Why is running an app still a platform negotiation?</span>
+</header>
+
+<hr class="divider" />
+
+<article class="post-body">
+
+  <p>Here is a thing nobody finds strange: you send someone a PDF and it opens. You don't ask what operating system they're on. You don't ship a Mac version and a Windows version of your PDF. You don't maintain a "PDF runtime" for each platform. The file just works, because the format was designed around portability from the start.</p>
+
+  <p>Now try shipping an application. Suddenly you have six codebases — or one codebase and a build matrix that takes four hours to green. Every platform has its own syscall dialect, its own permission model, its own idea of what a "process" is allowed to do. The same logic, rewritten six times, rotting at six different rates.</p>
+
+  <blockquote>Software got stuck in a world where portability means "rewrite it for each host." Files never accepted that deal.</blockquote>
+
+  <h2>where this came from</h2>
+
+  <p>I spent six months at the Communication Systems Research Group at UZH studying distributed systems — how things coordinate across boundaries they don't control. Then I built Karana OS, an intent-driven OS for IoT devices: custom kernel, scheduler, hardware abstraction layer, 200,000 lines. The whole project was a lesson in what happens when you don't think carefully about the boundary between your logic and the platform underneath it. You end up with code that is deeply married to one host, impossible to move.</p>
+
+  <p>Then I built Bouclier — an ERC-7579 permission layer for AI agents on EVM chains. Five deployed contracts, 128,000 fuzz calls, a full threat model. The core insight there was about <em>capability discipline</em>: the idea that every action an agent takes should be explicitly permitted, and that permission should be checked at a well-defined boundary, not assumed.</p>
+
+  <p>Those two projects pointed at the same problem from different directions. One was about portability. The other was about permission. Layer36 is what happens when you take both seriously at the same time.</p>
+
+  <h2>the actual idea</h2>
+
+  <p>WebAssembly gives you a portable execution format. A <code>.wasm</code> binary is deterministic, sandboxed, and runs the same on any conforming runtime. That's the first ingredient.</p>
+
+  <p>The second ingredient is a small, opinionated API surface — what I call UAPI. Instead of letting your app talk directly to the OS (files, network, processes, all with different syscall conventions on each platform), it talks to UAPI. One dialect. The runtime translates that into whatever the host OS actually speaks underneath.</p>
+
+  <p>The third ingredient is <strong>capability checks by default</strong>. Every UAPI call goes through UCap — a permission layer that defaults to deny. Your app declares what it needs. The user grants it. Nothing else runs. No ambient authority, no implicit permissions inherited from the process that launched you.</p>
+
+  <blockquote>Write once. Capability-checked. Ride the host adapter wherever you land.</blockquote>
+
+  <h2>why default-deny matters</h2>
+
+  <p>Most software runs with more authority than it needs. A notes app that can read your entire filesystem. A CLI tool that can make arbitrary network requests. We accept this because the alternative — explicitly granting permissions — felt like too much friction.</p>
+
+  <p>But the friction is the point. Capability discipline forces you to be honest about what your software actually needs. It makes the permission surface visible. It makes it auditable. And it means a compromised dependency can only do what you said it could do — not everything the OS will let a process do.</p>
+
+  <p>This isn't a new idea. It goes back to the object-capability model, to Plan 9, to a long tradition of people who thought carefully about the boundary between a program and its environment. Layer36 is an attempt to make that tradition practical for the kind of software people ship today.</p>
+
+  <h2>where we are</h2>
+
+  <p>Layer36 v0.1.0-rc1 ships a desktop runtime in Rust with Wasmtime, a CLI with <code>run</code>, <code>version</code>, and <code>doctor</code>, UAPI for CLI-style apps, UCap capability checks, and the same <code>.wasm</code> binary running on Windows, macOS, and Linux. There's a full threat model, architecture decision records, and public docs.</p>
+
+  <p>It's early. The surface is deliberately small. But the same binary runs on three platforms today — and when we extend the host adapters, it will run on more without the app changing at all.</p>
+
+  <p>That's the bet. Software that travels like files.</p>
+
+</article>
+
+<div class="post-footer">
+  <span>© 2026 · Yashraj Bhushan Pardeshi</span>
+  <a href="mailto:incyashraj@gmail.com">reply by email →</a>
+</div>
+
+<footer>
+  <div class="stars">✶ ✶ ✶</div>
+  hand-pasted in HTML. © 2026 · Yashraj Bhushan Pardeshi.
+</footer>
+
+</body>
+</html>

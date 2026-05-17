@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A short defense of cold-emailing your way through life — @incyashraj</title>
+<meta name="description" content="The worst they can say is nothing. Most of the time they say something." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@500;700&family=Inter:wght@400;500;700&family=Space+Mono:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400;1,9..144,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F5EBD7; --paper-2: #FDF6E3; --ink: #1B1814; --ink-2: #44403B;
+    --red: #D14B3E; --yellow: #F5C944;
+    --tape: rgba(245,201,68,0.55);
+    --display: "Archivo Black", system-ui, sans-serif;
+    --serif: "Fraunces", Georgia, serif; --hand: "Caveat", cursive;
+    --sans: "Inter", system-ui, sans-serif; --mono: "Space Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper); color: var(--ink); font-family: var(--serif);
+    font-size: 18px; line-height: 1.75; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(rgba(27,24,20,0.04) 1px, transparent 1px), radial-gradient(rgba(27,24,20,0.03) 1.2px, transparent 1.2px);
+    background-size: 4px 4px, 9px 9px; background-position: 0 0, 2px 2px;
+  }
+  a { color: inherit; text-decoration: none; }
+  .top { border-bottom: 2px dashed var(--ink); padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 12px; flex-wrap: wrap; gap: 10px; }
+  .top .badge { background: var(--ink); color: var(--paper); padding: 4px 10px; font-family: var(--hand); font-size: 18px; transform: rotate(-2deg); display: inline-block; }
+  .top .back { font-family: var(--mono); font-size: 12px; border-bottom: 2px solid transparent; padding-bottom: 2px; transition: border-color .2s; }
+  .top .back:hover { border-color: var(--red); }
+  .post-header { max-width: 720px; margin: 60px auto 0; padding: 0 32px; }
+  .post-meta { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; color: var(--red); text-transform: uppercase; margin-bottom: 20px; display: flex; gap: 24px; flex-wrap: wrap; }
+  .post-header h1 { font-family: var(--display); font-size: clamp(36px, 6vw, 68px); line-height: 0.95; letter-spacing: -0.03em; text-transform: lowercase; margin: 0 0 24px; }
+  .post-header h1 .hl { background: linear-gradient(transparent 55%, var(--yellow) 55%, var(--yellow) 95%, transparent 95%); padding: 0 4px; }
+  .post-lede { font-family: var(--hand); font-size: clamp(22px, 2.8vw, 30px); color: var(--ink-2); transform: rotate(-0.8deg); display: block; margin-bottom: 40px; line-height: 1.3; }
+  .divider { max-width: 720px; margin: 0 auto 48px; border: none; border-top: 2px dashed var(--ink-2); }
+  .post-body { max-width: 720px; margin: 0 auto 80px; padding: 0 32px; }
+  .post-body p { margin: 0 0 1.6em; }
+  .post-body h2 { font-family: var(--display); font-size: clamp(26px, 3.5vw, 40px); line-height: 1; letter-spacing: -0.025em; text-transform: lowercase; margin: 2.2em 0 0.6em; }
+  .post-body h3 { font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--red); margin: 2em 0 0.5em; }
+  .post-body strong { color: var(--ink); }
+  .post-body a { border-bottom: 2px solid var(--yellow); transition: border-color .2s; }
+  .post-body a:hover { border-color: var(--red); }
+  .post-body blockquote { margin: 2em 0; padding: 20px 24px; background: var(--paper-2); border: 1.5px solid var(--ink); box-shadow: 3px 4px 0 rgba(27,24,20,0.14); transform: rotate(-0.4deg); font-family: var(--hand); font-size: clamp(20px, 2.4vw, 26px); color: var(--ink-2); line-height: 1.4; position: relative; }
+  .post-body blockquote::before { content: ""; position: absolute; top: -12px; left: 24px; width: 60px; height: 18px; background: var(--tape); transform: rotate(-3deg); }
+  .post-footer { max-width: 720px; margin: 0 auto 80px; padding: 40px 32px 0; border-top: 2px dashed var(--ink-2); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-family: var(--mono); font-size: 12px; color: var(--ink-2); }
+  .post-footer a { font-family: var(--hand); font-size: 22px; color: var(--red); border-bottom: 2px solid transparent; transition: border-color .2s; }
+  .post-footer a:hover { border-color: var(--red); }
+  footer { text-align: center; padding: 20px 20px 60px; font-family: var(--hand); font-size: 20px; color: var(--ink-2); border-top: 2px dashed var(--ink); }
+  footer .stars { letter-spacing: 0.4em; font-family: var(--display); color: var(--red); }
+  @media (max-width: 600px) { .post-header, .post-body, .post-footer { padding: 0 20px; } .top { padding: 14px 20px; } }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <a href="/" class="badge">ZINE</a>
+  <a href="/#writing" class="back">← back to writing</a>
+  <span style="font-family:var(--hand);font-size:20px;">vol. 36</span>
+</div>
+
+<header class="post-header">
+  <div class="post-meta"><span>2025 · 10</span><span>6 min read</span><span>@incyashraj</span></div>
+  <h1>a short defense of <span class="hl">cold-emailing</span> your way through life.</h1>
+  <span class="post-lede">The worst they can say is nothing. Most of the time they say something.</span>
+</header>
+
+<hr class="divider" />
+
+<article class="post-body">
+
+  <p>I have operated by cold email my entire adult life. It is not a strategy I adopted consciously — it is just what you do when you want to be in a room and no one has invited you to it.</p>
+
+  <p>The first one that mattered: I read a paper from Prof. Burkhard Stiller's lab at the University of Zurich. Communication Systems Group, one of the best distributed systems research groups in Europe. I was a production engineering student in Mumbai with no CS degree, no European contacts, no research background. I wrote him an email about the paper. A few weeks later I was a fully funded research intern at his lab — the first person from my university to do this.</p>
+
+  <p>The second one: while I was in Zurich, I read about a hyperloop project being set up in India. I traced it back to a Swiss company. I cold-emailed the CEO. Twenty minutes into the call he CC'd his tech lead and said "we need exactly this kind of person on our team." I had a clear point of view and the nerve to send the email.</p>
+
+  <blockquote>Most doors are not as locked as they look from the outside. Some of them open with a single paragraph.</blockquote>
+
+  <h2>why people don't do it</h2>
+
+  <p>The objection I hear most often is fear of rejection. What if they don't reply? What if they think I'm wasting their time? What if they say no?</p>
+
+  <p>These are real concerns with a simple answer: the downside of not sending the email is exactly equal to the downside of getting no reply. You end up in the same place — without the thing you wanted. The difference is that sending the email costs you five minutes and a small amount of nerve, and occasionally it works.</p>
+
+  <p>The other objection is imposter syndrome: who am I to email this professor, this CEO, this person whose work I admire? The question assumes that you need credentials to justify the email. You don't. You need to have read the thing carefully, have a genuine point of view about it, and express that point of view clearly. That is all.</p>
+
+  <h2>what makes one work</h2>
+
+  <p>The emails that worked were all specific. Not "I'm interested in your research" — everyone is interested in everyone's research. Specific: I read this paper, I noticed this, I have a question about that, here is what I'm doing that is related.</p>
+
+  <p>Specificity signals that you have actually engaged. It shows that your interest is real rather than generic. It gives the recipient something to respond to, which is all they need. Most interesting people are happy to respond to a genuine question about their work. It is the vague expressions of admiration that get ignored.</p>
+
+  <p>In college I was rejected from almost every club and community I tried to join. So I showed up as a volunteer with no title, worked through the night on whatever needed doing, convinced senior industry figures to come speak at our institute through direct personal outreach. A year later I was the student body's first-choice candidate for secretary, the highest student position overseeing all clubs.</p>
+
+  <p>I never sat for the interview. I had already decided to go to Zurich and build something real. The point is that showing up — even without an invitation, even without credentials, even through a cold email — is almost always available to you as an option. It just requires deciding that you're allowed to try.</p>
+
+  <blockquote>The permission to reach out is not something anyone can grant you. You have to give it to yourself.</blockquote>
+
+  <h2>a practical note</h2>
+
+  <p>Keep it short. Three paragraphs maximum. One sentence on who you are. One paragraph on what you actually read or built or thought about. One sentence on what you're asking. No attachments on the first email. No "I know you're busy, I'll be brief" — just be brief.</p>
+
+  <p>And send it. The worst they can say is nothing, and nothing is where you already are.</p>
+
+</article>
+
+<div class="post-footer">
+  <span>© 2026 · Yashraj Bhushan Pardeshi</span>
+  <a href="mailto:incyashraj@gmail.com">reply by email →</a>
+</div>
+
+<footer>
+  <div class="stars">✶ ✶ ✶</div>
+  hand-pasted in HTML. © 2026 · Yashraj Bhushan Pardeshi.
+</footer>
+
+</body>
+</html>

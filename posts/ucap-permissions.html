@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>UCap, briefly — explicit permissions for a default-deny world — @incyashraj</title>
+<meta name="description" content="Every syscall is a trust decision. UCap makes that explicit." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@500;700&family=Inter:wght@400;500;700&family=Space+Mono:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400;1,9..144,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F5EBD7; --paper-2: #FDF6E3; --ink: #1B1814; --ink-2: #44403B;
+    --red: #D14B3E; --blue: #2A5E8E; --yellow: #F5C944; --green: #5A8C5A;
+    --tape: rgba(245,201,68,0.55); --tape-2: rgba(232,155,155,0.55);
+    --display: "Archivo Black", system-ui, sans-serif;
+    --serif: "Fraunces", Georgia, serif; --hand: "Caveat", cursive;
+    --sans: "Inter", system-ui, sans-serif; --mono: "Space Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper); color: var(--ink); font-family: var(--serif);
+    font-size: 18px; line-height: 1.75; -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(rgba(27,24,20,0.04) 1px, transparent 1px), radial-gradient(rgba(27,24,20,0.03) 1.2px, transparent 1.2px);
+    background-size: 4px 4px, 9px 9px; background-position: 0 0, 2px 2px;
+  }
+  a { color: inherit; text-decoration: none; }
+  .top { border-bottom: 2px dashed var(--ink); padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 12px; flex-wrap: wrap; gap: 10px; }
+  .top .badge { background: var(--ink); color: var(--paper); padding: 4px 10px; font-family: var(--hand); font-size: 18px; transform: rotate(-2deg); display: inline-block; }
+  .top .back { font-family: var(--mono); font-size: 12px; border-bottom: 2px solid transparent; padding-bottom: 2px; transition: border-color .2s; }
+  .top .back:hover { border-color: var(--red); }
+  .post-header { max-width: 720px; margin: 60px auto 0; padding: 0 32px; }
+  .post-meta { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; color: var(--red); text-transform: uppercase; margin-bottom: 20px; display: flex; gap: 24px; flex-wrap: wrap; }
+  .post-header h1 { font-family: var(--display); font-size: clamp(36px, 6vw, 68px); line-height: 0.95; letter-spacing: -0.03em; text-transform: lowercase; margin: 0 0 24px; }
+  .post-header h1 .hl { background: linear-gradient(transparent 55%, var(--yellow) 55%, var(--yellow) 95%, transparent 95%); padding: 0 4px; }
+  .post-lede { font-family: var(--hand); font-size: clamp(22px, 2.8vw, 30px); color: var(--ink-2); transform: rotate(-0.8deg); display: block; margin-bottom: 40px; line-height: 1.3; }
+  .divider { max-width: 720px; margin: 0 auto 48px; border: none; border-top: 2px dashed var(--ink-2); }
+  .post-body { max-width: 720px; margin: 0 auto 80px; padding: 0 32px; }
+  .post-body p { margin: 0 0 1.6em; }
+  .post-body h2 { font-family: var(--display); font-size: clamp(26px, 3.5vw, 40px); line-height: 1; letter-spacing: -0.025em; text-transform: lowercase; margin: 2.2em 0 0.6em; }
+  .post-body h3 { font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--red); margin: 2em 0 0.5em; }
+  .post-body strong { color: var(--ink); }
+  .post-body a { border-bottom: 2px solid var(--yellow); transition: border-color .2s; }
+  .post-body a:hover { border-color: var(--red); }
+  .post-body blockquote { margin: 2em 0; padding: 20px 24px; background: var(--paper-2); border: 1.5px solid var(--ink); box-shadow: 3px 4px 0 rgba(27,24,20,0.14); transform: rotate(-0.4deg); font-family: var(--hand); font-size: clamp(20px, 2.4vw, 26px); color: var(--ink-2); line-height: 1.4; position: relative; }
+  .post-body blockquote::before { content: ""; position: absolute; top: -12px; left: 24px; width: 60px; height: 18px; background: var(--tape); transform: rotate(-3deg); }
+  .post-body code { font-family: var(--mono); font-size: 0.82em; background: var(--paper-2); border: 1px solid rgba(27,24,20,0.15); padding: 2px 6px; }
+  .post-footer { max-width: 720px; margin: 0 auto 80px; padding: 40px 32px 0; border-top: 2px dashed var(--ink-2); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-family: var(--mono); font-size: 12px; color: var(--ink-2); }
+  .post-footer a { font-family: var(--hand); font-size: 22px; color: var(--red); border-bottom: 2px solid transparent; transition: border-color .2s; }
+  .post-footer a:hover { border-color: var(--red); }
+  footer { text-align: center; padding: 20px 20px 60px; font-family: var(--hand); font-size: 20px; color: var(--ink-2); border-top: 2px dashed var(--ink); }
+  footer .stars { letter-spacing: 0.4em; font-family: var(--display); color: var(--red); }
+  @media (max-width: 600px) { .post-header, .post-body, .post-footer { padding: 0 20px; } .top { padding: 14px 20px; } }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <a href="/" class="badge">ZINE</a>
+  <a href="/#writing" class="back">← back to writing</a>
+  <span style="font-family:var(--hand);font-size:20px;">vol. 36</span>
+</div>
+
+<header class="post-header">
+  <div class="post-meta"><span>2026 · 03</span><span>12 min read</span><span>@incyashraj</span></div>
+  <h1>ucap, briefly — <span class="hl">explicit permissions</span> for a default-deny world.</h1>
+  <span class="post-lede">Every syscall is a trust decision. Most runtimes just pretend it isn't.</span>
+</header>
+
+<hr class="divider" />
+
+<article class="post-body">
+
+  <p>When a process starts on most operating systems, it inherits authority it never asked for. It can read files it has no business reading. It can open network connections to anywhere. It can spawn subprocesses. All of this is available by default, revocable only through layers of configuration that most developers never touch.</p>
+
+  <p>This is sometimes called the "ambient authority" problem. Your program doesn't earn the right to do things — it just has permission because it's running as you. The authority comes from the identity of the process, not from an explicit grant tied to a specific action.</p>
+
+  <blockquote>Ambient authority is convenient right up until the moment something goes wrong. Then it's catastrophic.</blockquote>
+
+  <h2>where i learned this</h2>
+
+  <p>Building Bouclier made the problem concrete for me. Bouclier is an ERC-7579 permission layer for AI agents on EVM chains — the idea being that an AI agent executing on-chain transactions should only be able to do exactly what it was explicitly permitted to do, and nothing more. Five deployed contracts, 100 Solidity tests, 128,000 fuzz calls, live on Base Sepolia.</p>
+
+  <p>The on-chain version of this problem is actually easier to think about than the off-chain version. On a blockchain, every state transition is visible, every permission grant is a signed transaction, and the rules are enforced by the chain itself. You can't have ambient authority because there's no ambient environment — there's only the state you've been given explicit access to.</p>
+
+  <p>The challenge I kept bumping into was: why is this so much harder off-chain? Why does the default mode of running software involve handing it keys to everything?</p>
+
+  <h2>capability discipline, briefly</h2>
+
+  <p>The object-capability model is an old idea with a clean formulation: a capability is an unforgeable reference that grants the holder the right to perform a specific action on a specific object. You can only do something if you hold a capability for it. You can't guess capabilities, you can't forge them, and you can only pass them to code you explicitly trust with them.</p>
+
+  <p>Applied to a runtime, this means: your program has a capability for each resource it's allowed to touch — a specific file, a specific network address, a specific subprocess. Not "files in general." Not "the network." A <em>specific</em> thing, explicitly granted.</p>
+
+  <p>This is what UCap implements in Layer36. Every UAPI call — every interaction with the host environment — goes through a capability check. The default is deny. If you haven't been granted the capability, the call fails with a clear error, not a mysterious permission denied from four layers down the stack.</p>
+
+  <h2>what this looks like in practice</h2>
+
+  <p>When you run a Layer36 app, the manifest declares what capabilities it needs: <code>fs.read:/path/to/dir</code>, <code>net.connect:api.example.com:443</code>, whatever it actually requires. The user sees this before the app runs. They grant or deny. The runtime enforces it.</p>
+
+  <p>A compromised dependency can't exfiltrate your home directory, because it was never granted a capability to read it. A buggy library can't open arbitrary network connections, because it was never granted <code>net.connect:*</code>. The blast radius of any failure is bounded by what you said the app needed.</p>
+
+  <blockquote>Default-deny isn't paranoia. It's honesty about what your software actually needs.</blockquote>
+
+  <h2>the friction is the feature</h2>
+
+  <p>The common objection is that this is too much friction. Developers won't declare capabilities. Users won't read them. The manifest becomes a wall of checkboxes everyone clicks through.</p>
+
+  <p>I think this gets the direction of causality backwards. The reason permission dialogs are walls of checkboxes is that today's permission models are coarse — "access to your files" means the entire filesystem. When permissions are fine-grained and tied to specific resources, the grant is meaningful. "Read files in <code>~/Documents/invoices</code>" is a sentence a user can evaluate. "Access to your files" is not.</p>
+
+  <p>Building Bouclier taught me that when permissions are visible and auditable, people start to actually care about them. The on-chain permission model worked because every grant was a transaction you could inspect. UCap is an attempt to bring that quality to software that runs off-chain.</p>
+
+</article>
+
+<div class="post-footer">
+  <span>© 2026 · Yashraj Bhushan Pardeshi</span>
+  <a href="mailto:incyashraj@gmail.com">reply by email →</a>
+</div>
+
+<footer>
+  <div class="stars">✶ ✶ ✶</div>
+  hand-pasted in HTML. © 2026 · Yashraj Bhushan Pardeshi.
+</footer>
+
+</body>
+</html>
