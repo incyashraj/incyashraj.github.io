@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Incyashraj Quarterly — Vol. 01, No. 36</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;0,900;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F2E9D5;
+    --paper-2: #EADFC6;
+    --ink: #1A1411;
+    --ink-2: #534940;
+    --rule: #1A1411;
+    --red: #B23A2A;
+    --display: "Bodoni Moda", "Times New Roman", serif;
+    --body: "EB Garamond", Georgia, serif;
+    --mono: "JetBrains Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.42;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* halftone noise */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: radial-gradient(rgba(26,20,17,.09) 1px, transparent 1.2px);
+    background-size: 2.5px 2.5px;
+    mix-blend-mode: multiply;
+    opacity: .35;
+  }
+  a { color: inherit; text-decoration: none; }
+  .page { position: relative; z-index: 5; max-width: 1240px; margin: 0 auto; padding: 0 36px; }
+
+  /* ---------- MASTHEAD ---------- */
+  .strap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    padding: 16px 0 12px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .strap span { white-space: nowrap; }
+  .strap .dot { display: inline-block; width: 6px; height: 6px; background: var(--red); border-radius: 50%; margin: 0 8px 2px; }
+
+  .masthead {
+    border-bottom: 4px double var(--ink);
+    padding: 24px 0 18px;
+    position: relative;
+  }
+  .masthead .vol {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-bottom: 8px;
+  }
+  .masthead h1 {
+    font-family: var(--display);
+    font-weight: 900;
+    font-style: italic;
+    font-size: clamp(70px, 12vw, 180px);
+    line-height: 0.86;
+    letter-spacing: -0.025em;
+    margin: 0;
+    text-align: center;
+  }
+  .masthead h1 .at {
+    font-style: italic;
+    color: var(--red);
+    font-weight: 400;
+  }
+  .masthead .ornaments {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4px;
+  }
+  .masthead .orn-text {
+    font-family: var(--body);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+  .masthead .stars {
+    font-family: var(--display);
+    letter-spacing: 0.8em;
+    font-size: 14px;
+    color: var(--ink);
+  }
+
+  /* sub-banner */
+  .sub-banner {
+    border-bottom: 1px solid var(--ink);
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+  }
+  .sub-banner .center {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    color: var(--red);
+  }
+
+  /* ---------- LEAD STORY ---------- */
+  .lead {
+    padding: 36px 0 28px;
+    border-bottom: 1px solid var(--ink);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+  }
+  .lead .kicker {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--red);
+    border-bottom: 1px solid var(--red);
+    padding-bottom: 6px;
+    margin-bottom: 14px;
+    display: inline-block;
+  }
+  .lead-head {
+    grid-column: 1 / 3;
+  }
+  .lead-head h2 {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: clamp(40px, 5.4vw, 78px);
+    line-height: 0.94;
+    letter-spacing: -0.02em;
+    margin: 0 0 14px;
+  }
+  .lead-head .deck {
+    font-family: var(--body);
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink-2);
+    line-height: 1.35;
+    max-width: 28ch;
+  }
+  .lead-body {
+    columns: 2;
+    column-gap: 28px;
+    column-rule: 1px solid var(--ink-2);
+    grid-column: 1 / 3;
+    margin-top: 12px;
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: justify;
+    hyphens: auto;
+  }
+  .lead-body p { margin: 0 0 12px; }
+  .lead-body p:first-child::first-letter {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 76px;
+    line-height: 0.86;
+    float: left;
+    padding: 6px 10px 0 0;
+    color: var(--red);
+  }
+
+  /* sidebar with stop-press box */
+  .sidebar {
+    border-left: 1px solid var(--ink);
+    padding-left: 28px;
+  }
+  .stop-press {
+    border: 2px solid var(--ink);
+    padding: 18px;
+    margin-bottom: 22px;
+    position: relative;
+    background: var(--paper-2);
+  }
+  .stop-press::before {
+    content: "STOP PRESS";
+    position: absolute;
+    top: -10px;
+    left: 12px;
+    background: var(--red);
+    color: var(--paper);
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    letter-spacing: 0.18em;
+  }
+  .stop-press h3 {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 28px;
+    line-height: 1;
+    margin: 8px 0 8px;
+  }
+  .stop-press p {
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.4;
+  }
+  .sidebar h4 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-style: italic;
+    font-size: 20px;
+    margin: 0 0 10px;
+  }
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 22px;
+    font-size: 14px;
+    font-family: var(--body);
+  }
+  .sidebar ul li {
+    padding: 6px 0;
+    border-bottom: 1px dotted var(--ink-2);
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .sidebar ul li span:first-child { font-style: italic; }
+  .sidebar ul li span:last-child { font-family: var(--mono); font-size: 11px; color: var(--ink-2); }
+
+  /* ---------- DEPARTMENT SECTION ---------- */
+  .dept {
+    padding: 44px 0;
+    border-bottom: 1px solid var(--ink);
+  }
+  .dept-head {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .dept-head .label {
+    display: inline-block;
+    padding: 4px 18px;
+    border: 2px solid var(--ink);
+    border-radius: 0;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .dept-head h2 {
+    font-family: var(--display);
+    font-weight: 900;
+    font-style: italic;
+    font-size: clamp(36px, 5vw, 68px);
+    line-height: 1;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+  .dept-head .em { color: var(--red); }
+
+  .works {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+    margin-top: 16px;
+  }
+  .work {
+    border-top: 1px solid var(--ink);
+    padding-top: 16px;
+  }
+  .work .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--red);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .work h3 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-style: italic;
+    font-size: 36px;
+    line-height: 1.02;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  .work .deck {
+    font-family: var(--body);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-2);
+    margin-bottom: 12px;
+  }
+  .work p {
+    margin: 0 0 8px;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+  .work .meta {
+    margin-top: 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--ink-2);
+  }
+
+  /* ---------- CLASSIFIEDS ---------- */
+  .classifieds {
+    padding: 40px 0;
+    border-bottom: 1px solid var(--ink);
+  }
+  .classifieds-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--ink);
+  }
+  .ad {
+    padding: 22px 20px;
+    border-right: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    min-height: 130px;
+  }
+  .ad:nth-child(3n) { border-right: none; }
+  .ad:nth-last-child(-n+3) { border-bottom: none; }
+  .ad .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+  .ad h4 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-style: italic;
+    font-size: 22px;
+    margin: 0 0 4px;
+    line-height: 1.1;
+  }
+  .ad p {
+    font-size: 13px;
+    margin: 0;
+    color: var(--ink-2);
+    line-height: 1.4;
+  }
+  .ad .handle {
+    display: inline-block;
+    margin-top: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink);
+    border-bottom: 1px solid var(--red);
+  }
+
+  /* ---------- COLOPHON ---------- */
+  .colophon {
+    padding: 30px 0 60px;
+    text-align: center;
+    font-family: var(--body);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+  .colophon .stars {
+    font-family: var(--display);
+    letter-spacing: 0.6em;
+    margin: 8px 0;
+  }
+
+  @media (max-width: 880px) {
+    .lead { grid-template-columns: 1fr; }
+    .lead-head, .lead-body { grid-column: 1; }
+    .lead-body { columns: 1; }
+    .sidebar { border-left: none; border-top: 1px solid var(--ink); padding: 22px 0 0; }
+    .works { grid-template-columns: 1fr; }
+    .classifieds-grid { grid-template-columns: 1fr; }
+    .ad { border-right: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- top strap -->
+  <div class="strap">
+    <span>Established MMXXVI</span>
+    <span>The Incyashraj Quarterly<span class="dot"></span>A periodical of one</span>
+    <span>Singapore · Zurich · Mumbai</span>
+  </div>
+
+  <!-- masthead -->
+  <div class="masthead">
+    <div class="vol">
+      <span>Vol. I · No. 36</span>
+      <span>Monday, May 18, 2026</span>
+      <span>Price: free, always</span>
+    </div>
+    <h1><span class="at">@</span>Incyashraj</h1>
+    <div class="ornaments">
+      <span class="orn-text">Yashraj Bhushan Pardeshi, editor &amp; proprietor</span>
+      <span class="stars">✦ ✦ ✦</span>
+      <span class="orn-text">All the software that's fit to ship</span>
+    </div>
+  </div>
+
+  <!-- sub-banner with sections -->
+  <div class="sub-banner">
+    <span>Front Page</span>
+    <span>Layer36</span>
+    <span class="center">— if it isn't portable, is it really yours? —</span>
+    <span>Works</span>
+    <span>Correspondence</span>
+  </div>
+
+  <!-- LEAD STORY -->
+  <section class="lead">
+    <div class="lead-head">
+      <span class="kicker">▸ Lead Story · Singapore Bureau</span>
+      <h2>Founder bets that software ought to travel like a file.</h2>
+      <p class="deck">A young technical founder, late of Zurich and now of Nanyang, builds a runtime that lets one binary visit every operating system without changing its passport.</p>
+    </div>
+
+    <div class="lead-body">
+      <p>This newspaper is reliably informed that Mr. Yashraj Bhushan Pardeshi — known to readers of the internet as <em>@incyashraj</em> — has been heads-down for some months on a project named <strong>Layer36</strong>. The notion, in plain English, is this: write your application once, compile it to WebAssembly, and let a small but opinionated runtime carry it across Windows, macOS, Linux, Android, iOS, ChromeOS and the web, asking the host politely for the permissions it needs before doing anything at all.</p>
+      <p>The runtime is written in Rust and built atop Wasmtime. A working desktop command-line accepts the customary verbs — <em>run, version, doctor</em> — and continuous integration runs the same <em>.wasm</em> across three desktops without flinching. The project is presently at <strong>v0.1.0-rc1</strong>, accompanied by a threat model, a battery of benchmarks, architectural decision records, and documentation a reader may actually finish.</p>
+      <p>Mr. Pardeshi, who arrived at this work by way of distributed systems research at the Communication Systems Group of the University of Zurich and an MA in Blockchain at NTU, summarises his ambition with no particular drama: <em>software should be portable like files</em>. The full apparatus — UCap permissions, the Universal API, host adapters — is laid out in subsequent columns.</p>
+      <p>Reactions, where solicited, have been mild and curious. A separate report on the inside pages enumerates the prior works that, in this paper's judgement, made the present undertaking inevitable.</p>
+    </div>
+
+    <aside class="sidebar">
+      <div class="stop-press">
+        <h3>Layer36 reaches v0.1.0-rc1.</h3>
+        <p>Same <em>.wasm</em>, three desktops, capability-checked. The release candidate is open for inspection by the curious and the rigorous. <a href="https://incyashraj.github.io/layer6x6/introduction.html" style="border-bottom: 1px solid var(--red); color: var(--red);">Read the docs →</a></p>
+      </div>
+
+      <h4>Index of the issue.</h4>
+      <ul>
+        <li><span>Front page</span><span>p.1</span></li>
+        <li><span>Layer36 explained</span><span>p.2</span></li>
+        <li><span>Previous works</span><span>p.3</span></li>
+        <li><span>Correspondence</span><span>p.4</span></li>
+        <li><span>Colophon</span><span>p.5</span></li>
+      </ul>
+
+      <h4>Today's almanack.</h4>
+      <ul>
+        <li><span>Mood</span><span>BUILDING</span></li>
+        <li><span>Location</span><span>SG / ZRH</span></li>
+        <li><span>Open to</span><span>EARLY USERS</span></li>
+        <li><span>Coffee</span><span>3rd cup</span></li>
+      </ul>
+    </aside>
+  </section>
+
+  <!-- LAYER36 EXPLAINED -->
+  <section class="dept">
+    <div class="dept-head">
+      <span class="label">— Feature, page 2 —</span>
+      <h2>Layer<span class="em">36,</span> in <span class="em">four movements.</span></h2>
+    </div>
+
+    <div class="works">
+      <div class="work">
+        <div class="num">Movement I · Source</div>
+        <h3>Your app, compiled once.</h3>
+        <p class="deck">Whatever you write — Rust, anything that targets WebAssembly — leaves you in a single .wasm. No platform glue. No six codebases. The binary is the artifact.</p>
+        <p>The point is not that WebAssembly is fashionable. The point is that a binary that can be re-hosted is a binary that can outlive its original target.</p>
+      </div>
+      <div class="work">
+        <div class="num">Movement II · Surface</div>
+        <h3>A universal API.</h3>
+        <p class="deck">Instead of platform-specific calls, your code speaks one dialect: a common surface for files, processes, network, devices. One vocabulary, many translations downstream.</p>
+        <p>The Universal API is small on purpose. Less surface means fewer leaks, fewer special cases, and a future in which adding a host is a weekend.</p>
+      </div>
+      <div class="work">
+        <div class="num">Movement III · Check</div>
+        <h3>UCap, the gatekeeper.</h3>
+        <p class="deck">Every call is checked against explicit capability grants. Default-deny. The host knows, in advance, what your app is allowed to touch.</p>
+        <p>Permissions are a runtime concern, not a marketing one. UCap is what makes "safe" an honest adjective rather than a hopeful one.</p>
+      </div>
+      <div class="work">
+        <div class="num">Movement IV · Host</div>
+        <h3>Adapters, native &amp; specific.</h3>
+        <p class="deck">An approved call leaves the runtime and is translated to native syscalls per platform. Same artifact, anywhere it lands. Windows, macOS, Linux today; the rest, soon.</p>
+        <p>The long-term goal is plainly stated: <em>one app model</em> across every operating system worth carrying a binary to.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKS / PREVIOUS -->
+  <section class="dept">
+    <div class="dept-head">
+      <span class="label">— Page 3 · Selected Works —</span>
+      <h2>The <span class="em">prior art</span>, briefly.</h2>
+    </div>
+
+    <div class="works">
+      <div class="work">
+        <div class="num">No. 01 · Permissions</div>
+        <h3>Bouclier.</h3>
+        <p class="deck">An open-source ERC-7579 permission layer for AI agents on EVM chains.</p>
+        <p>Five verified contracts. One hundred Solidity tests. Foundry fuzz at 128K calls. SDKs for TypeScript, Python, LangChain, ELIZA and AgentKit. Live on Base Sepolia, hosted on IPFS at bouclier.eth.limo.</p>
+        <div class="meta">— ERC-7579 · Solidity · Certora specs</div>
+      </div>
+      <div class="work">
+        <div class="num">No. 02 · Runtime</div>
+        <h3>Kāraṇa OS.</h3>
+        <p class="deck">An intent-driven operating system for IoT devices. Apps declare what they want; the OS decides how.</p>
+        <p>Custom kernel, memory manager, scheduler, and hardware abstraction in Rust, C, and Assembly. An AI task layer chains device capabilities at runtime from inferred goals. Two hundred thousand lines, give or take.</p>
+        <div class="meta">— Rust / C / ASM · 200K+ lines</div>
+      </div>
+      <div class="work">
+        <div class="num">No. 03 · Research</div>
+        <h3>UZH, CSG.</h3>
+        <p class="deck">Distributed systems and ledger-based technologies at the University of Zurich.</p>
+        <p>Research Intern under Prof. Burkhard Stiller. The cold-email origin story of a long detour. PhD offer outstanding from Inria, France.</p>
+        <div class="meta">— Aug 2024 – Feb 2025</div>
+      </div>
+      <div class="work">
+        <div class="num">No. 04 · Range</div>
+        <h3>SCIN · EPL · DeFi · Suitcase.</h3>
+        <p class="deck">A small museum of side projects, each a piece of the eventual puzzle.</p>
+        <p>SCIN: AI-verified carbon credits, under 2% false positives. EPL/OnBoard: post-quantum decentralised social, ZK-ML where models never see plaintext. A DeFi AMM audited at zero high-severity findings. Suitcase, the AI reading companion.</p>
+        <div class="meta">— Carbon · ZK-ML · DeFi · Reading</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLASSIFIEDS / CONTACT -->
+  <section class="classifieds">
+    <div class="dept-head">
+      <span class="label">— Page 4 · Correspondence —</span>
+      <h2>Where to <span class="em">find</span> the editor.</h2>
+    </div>
+
+    <div class="classifieds-grid">
+      <a class="ad" href="mailto:incyashraj@gmail.com">
+        <div class="tag">Personal correspondence</div>
+        <h4>By post (electronic).</h4>
+        <p>Letters answered, when possible, within a week.</p>
+        <span class="handle">incyashraj@gmail.com</span>
+      </a>
+      <a class="ad" href="https://github.com/incyashraj">
+        <div class="tag">Source &amp; sundries</div>
+        <h4>By repository.</h4>
+        <p>Where the present work and several prior works live in public.</p>
+        <span class="handle">github.com/incyashraj</span>
+      </a>
+      <a class="ad" href="https://www.linkedin.com/in/incyashraj/">
+        <div class="tag">Professional notice</div>
+        <h4>By LinkedIn.</h4>
+        <p>For introductions of the more formal kind.</p>
+        <span class="handle">linkedin.com/in/incyashraj</span>
+      </a>
+      <a class="ad" href="https://x.com/incyashraj">
+        <div class="tag">In brief</div>
+        <h4>By short message.</h4>
+        <p>Posts of an irregular character, mostly on building.</p>
+        <span class="handle">x.com/incyashraj</span>
+      </a>
+      <a class="ad" href="https://incyashraj.github.io/layer6x6/introduction.html">
+        <div class="tag">Documents of record</div>
+        <h4>By specification.</h4>
+        <p>Layer36 documentation, threat model, ADRs, all in the open.</p>
+        <span class="handle">incyashraj.github.io/layer6x6</span>
+      </a>
+      <a class="ad" href="https://bouclier.eth.limo">
+        <div class="tag">Prior work, on-chain</div>
+        <h4>By Bouclier.</h4>
+        <p>The agent-permission layer in production, IPFS-hosted, ENS-named.</p>
+        <span class="handle">bouclier.eth.limo</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- COLOPHON -->
+  <div class="colophon">
+    <div class="stars">✦ ✦ ✦</div>
+    Set in Bodoni Moda and EB Garamond. Printed in HTML on the World Wide Web.<br/>
+    No subscriptions, no advertising, no tracking. © 2026, the editor.
+  </div>
+
+</div>
+
+</body>
+</html>

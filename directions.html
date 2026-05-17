@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Four directions — @incyashraj personal site</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0F0E0C;
+    --bg-2: #181613;
+    --bg-3: #232019;
+    --paper: #EFE9DB;
+    --ink: #B7AE9A;
+    --ink-2: #756E5F;
+    --hi: #D9A86C;
+    --line: rgba(239, 233, 219, 0.12);
+    --serif: "Instrument Serif", serif;
+    --sans: "Inter", system-ui, sans-serif;
+    --mono: "JetBrains Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); }
+  body {
+    color: var(--paper);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(rgba(239,233,219,0.04) 1px, transparent 1.2px);
+    background-size: 3px 3px;
+    z-index: 1;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .wrap {
+    position: relative;
+    z-index: 5;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 56px 48px 80px;
+  }
+
+  /* ---------- HEADER ---------- */
+  header {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 40px;
+    margin-bottom: 56px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: end;
+  }
+  .strap {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--hi);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .strap::before {
+    content: "";
+    width: 14px;
+    height: 1px;
+    background: var(--hi);
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(56px, 8vw, 110px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    margin: 0;
+    max-width: 18ch;
+  }
+  h1 .em {
+    font-style: italic;
+    color: var(--hi);
+  }
+  .header-side {
+    text-align: right;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    line-height: 1.8;
+  }
+  .header-side .row {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 12px;
+    justify-content: end;
+    padding: 4px 0;
+  }
+  .header-side .v { color: var(--paper); }
+
+  .intro {
+    margin-top: 20px;
+    max-width: 60ch;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 21px;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+  .intro em { color: var(--hi); font-style: italic; }
+
+  /* ---------- GRID ---------- */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 56px 40px;
+  }
+
+  /* ---------- CARD ---------- */
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    gap: 16px;
+  }
+  .card-head .id {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--hi);
+    text-transform: uppercase;
+  }
+  .card-head .act {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .card h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(36px, 4.4vw, 56px);
+    line-height: 1;
+    margin: 0 0 8px;
+    letter-spacing: -0.015em;
+  }
+  .card h2 .em { font-style: italic; color: var(--hi); }
+  .card .vibe {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 19px;
+    color: var(--ink);
+    margin: 0 0 22px;
+    line-height: 1.4;
+  }
+
+  /* ----- preview frame ----- */
+  .preview {
+    position: relative;
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    aspect-ratio: 16 / 11;
+    overflow: hidden;
+    border-radius: 4px;
+    transition: border-color .3s ease, transform .3s ease, box-shadow .3s ease;
+    cursor: pointer;
+  }
+  .card:hover .preview {
+    border-color: var(--hi);
+    transform: translateY(-3px);
+    box-shadow: 0 24px 56px -28px rgba(217, 168, 108, 0.4);
+  }
+  .preview iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 1400px;
+    height: 962px;
+    border: none;
+    transform: scale(0.38);
+    transform-origin: top left;
+    pointer-events: none;
+    background: var(--paper);
+  }
+  .preview .scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, transparent 60%, rgba(15,14,12,0.75) 100%);
+    pointer-events: none;
+    transition: opacity .3s ease;
+  }
+  .card:hover .preview .scrim { opacity: 0.4; }
+  .preview .open-badge {
+    position: absolute;
+    bottom: 18px; right: 18px;
+    background: var(--hi);
+    color: var(--bg);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .3s ease, transform .3s ease;
+  }
+  .card:hover .open-badge {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ----- specs row ----- */
+  .specs {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .specs .spec {
+    padding: 14px 16px 14px 0;
+    border-right: 1px solid var(--line);
+  }
+  .specs .spec:last-child { border-right: none; padding-right: 0; }
+  .specs .spec:not(:first-child) { padding-left: 16px; }
+  .specs .lbl {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    margin-bottom: 6px;
+  }
+  .specs .val {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--paper);
+    line-height: 1.3;
+  }
+  .specs .val.mono {
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+
+  /* swatches */
+  .swatches {
+    display: flex;
+    gap: 4px;
+  }
+  .swatches span {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 1px solid rgba(0,0,0,0.18);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--ink-2);
+    text-transform: uppercase;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  footer .star {
+    color: var(--hi);
+    letter-spacing: 0.5em;
+  }
+
+  @media (max-width: 880px) {
+    .wrap { padding: 32px 24px 60px; }
+    .grid { grid-template-columns: 1fr; gap: 40px; }
+    header { grid-template-columns: 1fr; }
+    .header-side { text-align: left; }
+    .header-side .row { justify-content: start; }
+    h1 { font-size: 56px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <div>
+      <div class="strap">Direction sheet · for your review</div>
+      <h1>Four directions for <span class="em">@incyashraj.</span></h1>
+      <p class="intro">
+        Same content, four postures. Click any preview to open it full-screen.
+        Pick one (or two), and I'll take that direction the rest of the way —
+        full pages, animation, the mode-toggle gimmick, whatever you want next.
+      </p>
+    </div>
+    <div class="header-side">
+      <div class="row"><span>Subject</span><span class="v">Yashraj B. Pardeshi</span></div>
+      <div class="row"><span>Brief</span><span class="v">Personal site · GH Pages</span></div>
+      <div class="row"><span>Date</span><span class="v">2026.05.18</span></div>
+      <div class="row"><span>Status</span><span class="v" style="color: var(--hi);">Awaiting pick</span></div>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <!-- DIRECTION A — CREAM (original) -->
+    <a class="card" href="variants/00-cream.html">
+      <div class="card-head">
+        <span class="id">DIR — 00 · Original</span>
+        <span class="act">→ open</span>
+      </div>
+      <h2>The <span class="em">composed</span> one.</h2>
+      <p class="vibe">Cream paper, serif display, floating SVG shapes, Builder · Learner · Human toggle. The current site — polished, gentle, safe.</p>
+      <div class="preview">
+        <iframe src="variants/00-cream.html" loading="lazy" scrolling="no" tabindex="-1"></iframe>
+        <div class="scrim"></div>
+        <div class="open-badge">Open ↗</div>
+      </div>
+      <div class="specs">
+        <div class="spec">
+          <div class="lbl">Vibe</div>
+          <div class="val">Personal · warm</div>
+        </div>
+        <div class="spec">
+          <div class="lbl">Type</div>
+          <div class="val mono">Instrument · Space Grotesk</div>
+        </div>
+        <div class="spec">
+          <div class="lbl">Palette</div>
+          <div class="val swatches">
+            <span style="background:#F4ECDB"></span>
+            <span style="background:#1B1A17"></span>
+            <span style="background:#C44536"></span>
+            <span style="background:#E8AFA0"></span>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <!-- DIRECTION B — BROADSHEET -->
+    <a class="card" href="variants/01-broadsheet.html">
+      <div class="card-head">
+        <span class="id">DIR — 01 · Broadsheet</span>
+        <span class="act">→ open</span>
+      </div>
+      <h2>The <span class="em">editorial</span> one.</h2>
+      <p class="vibe">A newspaper of one. Bodoni masthead, drop caps, multi-column body, dingbats, stop-press box. Reads slowly and deliberately.</p>
+      <div class="preview">
+        <iframe src="variants/01-broadsheet.html" loading="lazy" scrolling="no" tabindex="-1"></iframe>
+        <div class="scrim"></div>
+        <div class="open-badge">Open ↗</div>
+      </div>
+      <div class="specs">
+        <div class="spec">
+          <div class="lbl">Vibe</div>
+          <div class="val">Literary · slow</div>
+        </div>
+        <div class="spec">
+          <div class="lbl">Type</div>
+          <div class="val mono">Bodoni Moda · EB Garamond</div>
+        </div>
+        <div class="spec">
+          <div class="lbl">Palette</div>
+          <div class="val swatches">
+            <span style="background:#F2E9D5"></span>
+            <span style="background:#1A1411"></span>
+            <span style="background:#B23A2A"></span>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <!-- DIRECTION C — SCHEMATIC -->
+    <a class="card" href="variants/02-schematic.html">
+      <div class="card-head">
+        <span class="id">DIR — 02 · Schematic</span>
+        <span class="act">→ open</span>
+      </div>
+      <h2>The <span class="em">engineered</span> one.</h2>
+      <p class="vibe">Site as engineering drawing. Dark blueprint, title block, dimension lines, "FIG. 1.0" annotations, parts list. Personality through restraint.</p>
+      <div class="preview">
+        <iframe src="variants/02-schematic.html" loading="lazy" scrolling="no" tabindex="-1"></iframe>
+        <div class="scrim"></div>
+        <div class="open-badge">Open ↗</div>
+      </div>
+      <div class="specs">
+        <div class="spec">
+          <div class="lbl">Vibe</div>
+          <div class="val">Technical · exact</div>
+        </div>
+        <div class="spec">
+          <div class="lbl">Type</div>
+          <div class="val mono">Archivo · JetBrains · Space Mono</div>
+        </div>
+        <div class="spec">
+          <div class="lbl">Palette</div>
+          <div class="val swatches">
+            <span style="background:#0E1620"></span>
+            <span style="background:#DDE6F0"></span>
+            <span style="background:#F2CD45"></span>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <!-- DIRECTION D — ZINE (now the live site) -->
+    <a class="card" href="index.html">
+      <div class="card-head">
+        <span class="id">DIR — 03 · Zine · LIVE</span>
+        <span class="act">→ open</span>
+      </div>
+      <h2>The <span class="em">handmade</span> one.</h2>
+      <p class="vibe">Cut-and-paste scrapbook. Taped-down cards, rotated polaroids, hand-drawn arrows, marker highlights, mixed type. Loud, illustrated, alive.</p>
+      <div class="preview">
+        <iframe src="index.html" loading="lazy" scrolling="no" tabindex="-1"></iframe>
+        <div class="scrim"></div>
+        <div class="open-badge">Open ↗</div>
+      </div>
+      <div class="specs">
+        <div class="spec">
+          <div class="lbl">Vibe</div>
+          <div class="val">Playful · loud</div>
+        </div>
+        <div class="spec">
+          <div class="lbl">Type</div>
+          <div class="val mono">Archivo Black · Caveat · Fraunces</div>
+        </div>
+        <div class="spec">
+          <div class="lbl">Palette</div>
+          <div class="val swatches">
+            <span style="background:#F5EBD7"></span>
+            <span style="background:#1B1814"></span>
+            <span style="background:#D14B3E"></span>
+            <span style="background:#F5C944"></span>
+            <span style="background:#2A5E8E"></span>
+          </div>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <footer>
+    <span>// FOUR DIRECTIONS · ONE BUILDER</span>
+    <span class="star">✦ ✦ ✦ ✦</span>
+    <span>// PICK ONE, OR MIX TWO</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

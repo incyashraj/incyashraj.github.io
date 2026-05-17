@@ -1,0 +1,778 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>@incyashraj — zine vol. 36</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@500;700&family=Inter:wght@400;500;700&family=Space+Mono:wght@400;700&family=Fraunces:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F5EBD7;
+    --paper-2: #FDF6E3;
+    --ink: #1B1814;
+    --ink-2: #44403B;
+    --red: #D14B3E;
+    --blue: #2A5E8E;
+    --yellow: #F5C944;
+    --green: #5A8C5A;
+    --pink: #E89B9B;
+    --tape: rgba(245, 201, 68, 0.55);
+    --display: "Archivo Black", system-ui, sans-serif;
+    --serif: "Fraunces", Georgia, serif;
+    --hand: "Caveat", cursive;
+    --sans: "Inter", system-ui, sans-serif;
+    --mono: "Space Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(rgba(27,24,20,0.04) 1px, transparent 1px),
+      radial-gradient(rgba(27,24,20,0.03) 1.2px, transparent 1.2px);
+    background-size: 4px 4px, 9px 9px;
+    background-position: 0 0, 2px 2px;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* tape strip helper */
+  .tape {
+    position: absolute;
+    width: 80px; height: 22px;
+    background: var(--tape);
+    border-left: 1px dashed rgba(0,0,0,.08);
+    border-right: 1px dashed rgba(0,0,0,.08);
+    z-index: 4;
+    box-shadow: 0 1px 0 rgba(0,0,0,.05);
+  }
+
+  /* ---------- TOP STRIP ---------- */
+  .top {
+    border-bottom: 2px dashed var(--ink);
+    padding: 14px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .top .badge {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 4px 10px;
+    font-family: var(--hand);
+    font-size: 18px;
+    transform: rotate(-2deg);
+  }
+  .top span:nth-child(2) { font-family: var(--hand); font-size: 20px; }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    padding: 56px 6vw 80px;
+    min-height: 92vh;
+    overflow: hidden;
+  }
+  .hero-name {
+    position: relative;
+    z-index: 5;
+    margin: 0 0 12px;
+    font-family: var(--display);
+    font-size: clamp(80px, 16vw, 240px);
+    line-height: 0.82;
+    letter-spacing: -0.045em;
+    text-transform: lowercase;
+    color: var(--ink);
+  }
+  .hero-name .at {
+    color: var(--red);
+    display: inline-block;
+    transform: rotate(-8deg);
+    margin-right: -0.05em;
+  }
+  .hero-name .squig {
+    display: inline-block;
+    position: relative;
+  }
+  .hero-name .squig::after {
+    content: "";
+    position: absolute;
+    left: 6px; right: 6px;
+    bottom: -8px;
+    height: 14px;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'><path d='M0 7 Q 20 -2 40 7 T 80 7 T 120 7 T 160 7 T 200 7' stroke='%23F5C944' stroke-width='5' fill='none' stroke-linecap='round'/></svg>") center/100% 100% no-repeat;
+    opacity: 0.95;
+  }
+
+  .hero-strap {
+    font-family: var(--hand);
+    font-size: clamp(20px, 2.4vw, 30px);
+    color: var(--ink-2);
+    margin: 0 0 28px;
+    transform: rotate(-1.5deg) translateX(8px);
+    display: inline-block;
+  }
+  .hero-strap .arrow {
+    display: inline-block;
+    transform: rotate(20deg) translate(-4px, 4px);
+    margin: 0 4px;
+    color: var(--red);
+  }
+
+  .hero-name-full {
+    display: inline-block;
+    margin-bottom: 28px;
+    padding: 6px 16px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    transform: rotate(1.2deg);
+  }
+
+  /* a sticky-note card explaining what they're up to */
+  .hero-tags {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+    position: relative;
+    z-index: 5;
+  }
+  .chip {
+    padding: 8px 14px;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 14px;
+    background: var(--paper-2);
+    transform: rotate(var(--rot, 0deg));
+  }
+  .chip.red { background: var(--red); color: var(--paper); border-color: var(--red); }
+  .chip.yellow { background: var(--yellow); border-color: var(--ink); }
+  .chip.blue { background: var(--blue); color: var(--paper); border-color: var(--blue); }
+  .chip.green { background: var(--green); color: var(--paper); border-color: var(--green); }
+
+  /* hero floating illustration elements */
+  .float {
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .float-1 { top: 10%; right: 8%; transform: rotate(-12deg); }
+  .float-2 { top: 55%; right: 4%; transform: rotate(8deg); }
+  .float-3 { bottom: 14%; left: 3%; transform: rotate(-6deg); }
+  .float-4 { top: 22%; right: 32%; transform: rotate(-4deg); }
+  .float-5 { bottom: 28%; right: 18%; transform: rotate(10deg); }
+
+  /* big sticky CTA card */
+  .sticky-card {
+    position: absolute;
+    bottom: 60px;
+    right: 6vw;
+    width: 290px;
+    background: var(--yellow);
+    color: var(--ink);
+    padding: 22px;
+    transform: rotate(4deg);
+    box-shadow: 4px 6px 0 rgba(27,24,20,0.18);
+    z-index: 6;
+  }
+  .sticky-card::before {
+    content: "";
+    position: absolute;
+    top: -14px; left: 50%; transform: translateX(-50%) rotate(-3deg);
+    width: 90px; height: 22px;
+    background: var(--tape);
+  }
+  .sticky-card .stub {
+    font-family: var(--hand);
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: var(--ink-2);
+  }
+  .sticky-card h3 {
+    font-family: var(--display);
+    font-size: 28px;
+    line-height: 0.95;
+    margin: 0 0 12px;
+    text-transform: lowercase;
+    letter-spacing: -0.01em;
+  }
+  .sticky-card p { margin: 0; font-size: 14px; }
+  .sticky-card .go {
+    display: inline-block;
+    margin-top: 12px;
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 13px;
+    padding-bottom: 2px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  /* annotation arrow from cta to name */
+  .annot {
+    position: absolute;
+    font-family: var(--hand);
+    color: var(--red);
+    z-index: 7;
+  }
+  .annot.a1 {
+    top: 60%; left: 50%;
+    font-size: 26px;
+    transform: rotate(-8deg);
+  }
+
+  /* ---------- SECTION HEAD ---------- */
+  .head {
+    margin: 60px 6vw 36px;
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .head .num {
+    font-family: var(--display);
+    font-size: 18px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 4px 14px;
+    transform: rotate(-3deg);
+    letter-spacing: 0.04em;
+  }
+  .head h2 {
+    font-family: var(--display);
+    font-size: clamp(44px, 7vw, 88px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    margin: 0;
+    text-transform: lowercase;
+  }
+  .head h2 .hl {
+    background: linear-gradient(transparent 55%, var(--yellow) 55%, var(--yellow) 95%, transparent 95%);
+    padding: 0 4px;
+  }
+  .head h2 .ru { color: var(--red); }
+  .head .note {
+    font-family: var(--hand);
+    font-size: 22px;
+    color: var(--ink-2);
+    transform: rotate(-2deg);
+    margin-left: auto;
+  }
+
+  /* ---------- LAYER36 SCRAPBOOK ---------- */
+  .l36-board {
+    position: relative;
+    margin: 0 6vw 100px;
+    min-height: 760px;
+    padding-top: 40px;
+  }
+  .l36-card {
+    position: absolute;
+    background: var(--paper-2);
+    border: 1.5px solid var(--ink);
+    padding: 22px 22px 26px;
+    box-shadow: 4px 5px 0 rgba(27,24,20,0.18);
+  }
+  .l36-card h4 {
+    font-family: var(--display);
+    font-size: 22px;
+    line-height: 1;
+    margin: 0 0 6px;
+    text-transform: lowercase;
+    letter-spacing: -0.01em;
+  }
+  .l36-card .step {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .l36-card p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--ink-2);
+  }
+  .l36-card.l1 { top: 30px;  left: 0%;   width: 280px; transform: rotate(-3deg); background: var(--paper-2); }
+  .l36-card.l2 { top: 100px; left: 26%;  width: 280px; transform: rotate(2deg); background: var(--pink); border-color: var(--ink); }
+  .l36-card.l3 { top: 60px;  left: 52%;  width: 280px; transform: rotate(-2deg); background: var(--paper-2); }
+  .l36-card.l4 { top: 140px; left: 76%;  width: 270px; transform: rotate(3deg); background: var(--yellow); border-color: var(--ink); }
+
+  .l36-card.l5 {
+    top: 420px;
+    left: 5%;
+    width: 480px;
+    transform: rotate(-1.5deg);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 28px;
+  }
+  .l36-card.l5 .step { color: var(--yellow); }
+  .l36-card.l5 h4 { color: var(--paper); font-size: 32px; }
+  .l36-card.l5 p { color: var(--paper-2); font-size: 15px; }
+  .l36-card.l5 .ship {
+    display: inline-block;
+    margin-top: 14px;
+    font-family: var(--hand);
+    font-size: 22px;
+    color: var(--yellow);
+    border-bottom: 2px solid var(--yellow);
+  }
+
+  .l36-card.l6 {
+    top: 460px;
+    left: 56%;
+    width: 360px;
+    transform: rotate(2deg);
+    background: var(--paper-2);
+  }
+  .l36-card.l6 ul { padding: 0; margin: 12px 0 0; list-style: none; }
+  .l36-card.l6 li {
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--ink-2);
+    display: flex; gap: 8px;
+  }
+  .l36-card.l6 li::before { content: "✓"; color: var(--red); }
+  .l36-card.l6 li:last-child { border-bottom: none; }
+
+  /* tape on cards */
+  .l36-card::before {
+    content: "";
+    position: absolute;
+    top: -14px; left: 24px;
+    width: 70px; height: 22px;
+    background: var(--tape);
+    transform: rotate(-4deg);
+  }
+  .l36-card.l2::before { left: auto; right: 30px; transform: rotate(6deg); }
+  .l36-card.l4::before { left: auto; right: 20px; transform: rotate(8deg); }
+
+  /* hand-drawn arrows connecting cards */
+  .arrow-svg {
+    position: absolute;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  /* ---------- PREVIOUS WORK ---------- */
+  .prev-grid {
+    margin: 0 6vw 80px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 50px 36px;
+  }
+  .polaroid {
+    background: var(--paper-2);
+    border: 1.5px solid var(--ink);
+    padding: 14px 14px 18px;
+    box-shadow: 4px 5px 0 rgba(27,24,20,0.18);
+    position: relative;
+    transform: rotate(var(--rot, -1deg));
+    transition: transform .3s ease;
+  }
+  .polaroid:hover { transform: rotate(0deg) scale(1.02); }
+  .polaroid::before {
+    content: "";
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    width: 90px; height: 24px;
+    background: var(--tape);
+  }
+  .polaroid .photo {
+    height: 180px;
+    border: 1.5px solid var(--ink);
+    background: var(--paper);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .polaroid h3 {
+    font-family: var(--display);
+    font-size: 32px;
+    line-height: 1;
+    margin: 16px 0 4px;
+    text-transform: lowercase;
+    letter-spacing: -0.015em;
+  }
+  .polaroid .stamp {
+    position: absolute;
+    top: 14px; right: 14px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--red);
+    padding: 4px 8px;
+    transform: rotate(6deg);
+  }
+  .polaroid p {
+    font-size: 14px;
+    color: var(--ink-2);
+    margin: 4px 0 0;
+    line-height: 1.45;
+  }
+  .polaroid .hand-cap {
+    font-family: var(--hand);
+    font-size: 20px;
+    color: var(--ink);
+    margin-top: 10px;
+    display: block;
+  }
+
+  /* photo SVG illustration */
+  .pic-svg { width: 100%; height: 100%; }
+
+  /* ---------- CONTACT ---------- */
+  .contact {
+    margin: 0 6vw 80px;
+    position: relative;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 60px 50px;
+    transform: rotate(-0.6deg);
+    box-shadow: 6px 8px 0 rgba(27,24,20,0.2);
+  }
+  .contact::before {
+    content: "";
+    position: absolute;
+    top: -14px; left: 40px;
+    width: 130px; height: 26px;
+    background: var(--tape);
+    transform: rotate(-4deg);
+  }
+  .contact h2 {
+    font-family: var(--display);
+    font-size: clamp(40px, 7vw, 80px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    margin: 0 0 12px;
+    text-transform: lowercase;
+  }
+  .contact h2 .hl {
+    background: linear-gradient(transparent 60%, var(--yellow) 60%, var(--yellow) 95%, transparent 95%);
+    color: var(--ink);
+    padding: 0 6px;
+  }
+  .contact .lead {
+    font-family: var(--hand);
+    font-size: 26px;
+    color: var(--paper-2);
+    margin: 0 0 36px;
+    transform: rotate(-1deg);
+    display: inline-block;
+  }
+  .links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px 36px;
+  }
+  .links a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-top: 1px solid rgba(245,235,215,0.2);
+    font-family: var(--mono);
+    font-size: 14px;
+    transition: padding-left .25s ease, color .25s ease;
+  }
+  .links a:hover { padding-left: 12px; color: var(--yellow); }
+  .links a strong { font-weight: 500; color: var(--paper); }
+  .links a .arr { color: var(--yellow); }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    text-align: center;
+    padding: 40px 20px 60px;
+    font-family: var(--hand);
+    font-size: 20px;
+    color: var(--ink-2);
+  }
+  footer .stars { letter-spacing: 0.4em; font-family: var(--display); color: var(--red); }
+
+  /* responsive */
+  @media (max-width: 980px) {
+    .l36-board { min-height: auto; padding-top: 0; }
+    .l36-card {
+      position: relative;
+      top: auto !important; left: auto !important;
+      width: 100% !important;
+      transform: rotate(-1deg) !important;
+      margin-bottom: 28px;
+    }
+    .l36-card.l5 { transform: rotate(-1deg) !important; }
+    .arrow-svg { display: none; }
+    .prev-grid { grid-template-columns: 1fr; }
+    .sticky-card { position: relative; bottom: auto; right: auto; margin: 30px auto 0; }
+    .annot { display: none; }
+    .float { display: none; }
+    .links { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP STRIP -->
+<div class="top">
+  <span class="badge">ZINE</span>
+  <span>vol. 36 — totally hand-pasted</span>
+  <span>SG · ZRH · BOM</span>
+  <span>made on planet earth</span>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+
+  <!-- floating SVG decorations -->
+  <svg class="float float-1" width="60" height="60" viewBox="0 0 60 60" fill="none">
+    <path d="M30 5 L33 26 L54 30 L33 34 L30 55 L27 34 L6 30 L27 26 Z" fill="#F5C944" stroke="#1B1814" stroke-width="2" stroke-linejoin="round"/>
+  </svg>
+  <svg class="float float-2" width="90" height="40" viewBox="0 0 90 40" fill="none">
+    <path d="M5 20 Q 18 4 30 20 T 55 20 T 80 20 M73 12 L80 20 L73 28" stroke="#D14B3E" stroke-width="3" stroke-linecap="round" fill="none"/>
+  </svg>
+  <svg class="float float-3" width="72" height="72" viewBox="0 0 72 72" fill="none">
+    <circle cx="36" cy="36" r="30" stroke="#1B1814" stroke-width="2" fill="none"/>
+    <circle cx="36" cy="36" r="12" fill="#2A5E8E"/>
+  </svg>
+  <svg class="float float-4" width="110" height="60" viewBox="0 0 110 60" fill="none">
+    <path d="M5 40 Q 30 -6 55 30 T 105 20" stroke="#5A8C5A" stroke-width="3" stroke-linecap="round" fill="none" stroke-dasharray="2 6"/>
+  </svg>
+  <svg class="float float-5" width="60" height="60" viewBox="0 0 60 60" fill="none">
+    <rect x="6" y="6" width="36" height="36" stroke="#1B1814" stroke-width="2" fill="none"/>
+    <rect x="14" y="14" width="36" height="36" stroke="#D14B3E" stroke-width="2" fill="#F5EBD7"/>
+  </svg>
+
+  <div class="hero-name-full">Yashraj Bhushan Pardeshi · technical founder · NTU MS</div>
+
+  <h1 class="hero-name"><span class="at">@</span><span class="squig">incyashraj</span></h1>
+
+  <p class="hero-strap">
+    i build things on the internet <span class="arrow">↘</span> mostly <strong>Layer36</strong> right now.
+  </p>
+
+  <div class="hero-tags">
+    <span class="chip red" style="--rot: -2deg;">shipping</span>
+    <span class="chip yellow" style="--rot: 1deg;">wasm runtime</span>
+    <span class="chip" style="--rot: -1deg;">rust + wasmtime</span>
+    <span class="chip blue" style="--rot: 2deg;">portable software</span>
+    <span class="chip green" style="--rot: -2deg;">capability-checked</span>
+    <span class="chip" style="--rot: 1deg;">cold-emailing my way through life</span>
+  </div>
+
+  <!-- big sticky cta -->
+  <div class="sticky-card">
+    <div class="stub">~ p.s. ~</div>
+    <h3>peek at Layer36</h3>
+    <p>One app artifact. Many hosts. Default-deny permissions. The docs explain it nicer than I can on a sticky note.</p>
+    <a class="go" href="https://incyashraj.github.io/layer6x6/introduction.html">docs → ↗</a>
+  </div>
+
+  <span class="annot a1">← that's the thing →</span>
+</section>
+
+<!-- LAYER36 SCRAPBOOK -->
+<div class="head">
+  <span class="num">01 ·</span>
+  <h2>so, <span class="hl">layer36</span> — <span class="ru">in pieces.</span></h2>
+  <span class="note">↑ pin it to your fridge</span>
+</div>
+
+<section class="l36-board">
+
+  <!-- arrows connecting cards -->
+  <svg class="arrow-svg" style="top: 80px; left: 22%;" width="80" height="60" viewBox="0 0 80 60" fill="none">
+    <path d="M5 30 Q 30 5 70 25 M64 18 L70 25 L62 28" stroke="#D14B3E" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  </svg>
+  <svg class="arrow-svg" style="top: 130px; left: 48%;" width="80" height="60" viewBox="0 0 80 60" fill="none">
+    <path d="M5 40 Q 30 5 70 30 M64 23 L70 30 L62 33" stroke="#D14B3E" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  </svg>
+  <svg class="arrow-svg" style="top: 100px; left: 72%;" width="80" height="80" viewBox="0 0 80 80" fill="none">
+    <path d="M5 25 Q 30 -5 70 50 M64 42 L70 50 L60 50" stroke="#D14B3E" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  </svg>
+
+  <div class="l36-card l1">
+    <div class="step">step 01 · source</div>
+    <h4>your app.</h4>
+    <p>written once, compiled to <em>WebAssembly</em>. no six codebases, no platform glue.</p>
+  </div>
+
+  <div class="l36-card l2">
+    <div class="step">step 02 · surface</div>
+    <h4>universal api.</h4>
+    <p>a small, opinionated call surface. files, processes, network — one dialect.</p>
+  </div>
+
+  <div class="l36-card l3">
+    <div class="step">step 03 · check</div>
+    <h4>UCap permissions.</h4>
+    <p>every call gets a permission check. <strong>default-deny.</strong></p>
+  </div>
+
+  <div class="l36-card l4">
+    <div class="step">step 04 · host</div>
+    <h4>native adapters.</h4>
+    <p>approved calls translate to the OS underneath. same .wasm, anywhere it lands.</p>
+  </div>
+
+  <div class="l36-card l5">
+    <div class="step">~ the whole point ~</div>
+    <h4>software, portable like files.</h4>
+    <p>You don't think about a PDF working on Mac and Windows. You just send it. Layer36 wants apps to feel like that — write once, capability-checked, ride the host adapter wherever you need to land.</p>
+    <span class="ship">currently shipping v0.1.0-rc1</span>
+  </div>
+
+  <div class="l36-card l6">
+    <div class="step">what works today</div>
+    <h4>v0.1.0-rc1.</h4>
+    <ul>
+      <li>desktop runtime (rust + wasmtime)</li>
+      <li>CLI: run · version · doctor</li>
+      <li>UAPI for CLI-style apps</li>
+      <li>UCap capability checks</li>
+      <li>same .wasm on win / mac / linux</li>
+      <li>threat model · ADRs · public docs</li>
+    </ul>
+  </div>
+
+</section>
+
+<!-- PREVIOUS WORK / POLAROIDS -->
+<div class="head">
+  <span class="num">02 ·</span>
+  <h2>stuff i <span class="hl">built before</span> this.</h2>
+  <span class="note">all of it led here →</span>
+</div>
+
+<section class="prev-grid">
+
+  <article class="polaroid" style="--rot: -2deg;">
+    <div class="photo">
+      <span class="stamp">on-chain</span>
+      <svg class="pic-svg" viewBox="0 0 200 180" fill="none">
+        <g stroke="#1B1814" stroke-width="2">
+          <rect x="40" y="50" width="50" height="50" fill="#F5C944"/>
+          <rect x="110" y="50" width="50" height="50" fill="#D14B3E"/>
+          <rect x="75" y="100" width="50" height="50" fill="#2A5E8E"/>
+          <path d="M30 130 L30 30 L170 30" fill="none"/>
+          <circle cx="100" cy="155" r="6" fill="#1B1814"/>
+        </g>
+        <text x="100" y="170" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#1B1814">ERC-7579</text>
+      </svg>
+    </div>
+    <h3>bouclier.</h3>
+    <p>ERC-7579 permission layer for AI agents on EVM chains. 5 verified contracts, 100 tests, 128K fuzz calls, live on Base Sepolia.</p>
+    <span class="hand-cap">~ taught me permissions.</span>
+  </article>
+
+  <article class="polaroid" style="--rot: 1.5deg;">
+    <div class="photo">
+      <span class="stamp">200K loc</span>
+      <svg class="pic-svg" viewBox="0 0 200 180" fill="none">
+        <g stroke="#1B1814" stroke-width="2">
+          <rect x="30" y="40" width="140" height="20" fill="#E89B9B"/>
+          <rect x="30" y="64" width="140" height="20" fill="#F5C944"/>
+          <rect x="30" y="88" width="140" height="20" fill="#5A8C5A"/>
+          <rect x="30" y="112" width="140" height="20" fill="#2A5E8E"/>
+          <circle cx="100" cy="148" r="10" fill="#D14B3E"/>
+        </g>
+        <text x="100" y="170" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#1B1814">KĀRAṆA</text>
+      </svg>
+    </div>
+    <h3>kāraṇa os.</h3>
+    <p>intent-driven OS for IoT. custom kernel + scheduler + HAL in rust/c/asm. AI task layer chains capabilities from inferred goals.</p>
+    <span class="hand-cap">~ taught me runtimes.</span>
+  </article>
+
+  <article class="polaroid" style="--rot: 1.5deg;">
+    <div class="photo">
+      <span class="stamp">UZH · CSG</span>
+      <svg class="pic-svg" viewBox="0 0 200 180" fill="none">
+        <g stroke="#1B1814" stroke-width="2" fill="none">
+          <circle cx="60" cy="60" r="14" fill="#F5C944"/>
+          <circle cx="140" cy="60" r="14" fill="#D14B3E"/>
+          <circle cx="100" cy="120" r="14" fill="#2A5E8E"/>
+          <circle cx="40" cy="130" r="10" fill="#5A8C5A"/>
+          <circle cx="160" cy="130" r="10" fill="#E89B9B"/>
+          <path d="M60 60 L140 60 L100 120 L60 60 M40 130 L100 120 L160 130"/>
+        </g>
+        <text x="100" y="168" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#1B1814">DISTRIBUTED</text>
+      </svg>
+    </div>
+    <h3>uzh research.</h3>
+    <p>cold-emailed prof. burkhard stiller's lab and ended up at the Communication Systems Group. distributed systems, ledger tech, the start of all this. PhD offer from inria still open.</p>
+    <span class="hand-cap">~ taught me to ask.</span>
+  </article>
+
+  <article class="polaroid" style="--rot: -1.5deg;">
+    <div class="photo">
+      <span class="stamp">range</span>
+      <svg class="pic-svg" viewBox="0 0 200 180" fill="none">
+        <g stroke="#1B1814" stroke-width="2">
+          <path d="M20 140 L60 70 L100 110 L140 50 L180 100" fill="none" stroke="#D14B3E" stroke-width="3"/>
+          <circle cx="60" cy="70" r="5" fill="#1B1814"/>
+          <circle cx="100" cy="110" r="5" fill="#1B1814"/>
+          <circle cx="140" cy="50" r="5" fill="#1B1814"/>
+          <rect x="40" y="150" width="120" height="2" fill="#1B1814"/>
+        </g>
+        <text x="100" y="170" text-anchor="middle" font-family="Space Mono" font-size="10" fill="#1B1814">SCIN · EPL · DeFi · SUITCASE</text>
+      </svg>
+    </div>
+    <h3>everything else.</h3>
+    <p>SCIN (AI-verified carbon credits, <2% fp). EPL/OnBoard (post-quantum social, ZK-ML). a DeFi AMM with zero high-severity findings. suitcase (reading companion). range, as training.</p>
+    <span class="hand-cap">~ taught me a lot.</span>
+  </article>
+
+</section>
+
+<!-- CONTACT -->
+<div class="head">
+  <span class="num">03 ·</span>
+  <h2><span class="hl">say hi</span> — i mean it.</h2>
+  <span class="note">i answer cold emails ↘</span>
+</div>
+
+<section class="contact">
+  <h2>find me <span class="hl">anywhere</span><br/>the internet lets you.</h2>
+  <p class="lead">same handle on every platform that lets me have it ~ @incyashraj</p>
+
+  <div class="links">
+    <a href="mailto:incyashraj@gmail.com"><span><strong>email</strong> · incyashraj@gmail.com</span><span class="arr">→</span></a>
+    <a href="https://github.com/incyashraj"><span><strong>github</strong> · @incyashraj</span><span class="arr">↗</span></a>
+    <a href="https://x.com/incyashraj"><span><strong>x / twitter</strong> · @incyashraj</span><span class="arr">↗</span></a>
+    <a href="https://www.linkedin.com/in/incyashraj/"><span><strong>linkedin</strong> · incyashraj</span><span class="arr">↗</span></a>
+    <a href="https://incyashraj.github.io/layer6x6/introduction.html"><span><strong>layer36 docs</strong> · the spec</span><span class="arr">↗</span></a>
+    <a href="https://bouclier.eth.limo"><span><strong>bouclier</strong> · bouclier.eth.limo</span><span class="arr">↗</span></a>
+  </div>
+</section>
+
+<footer>
+  <div class="stars">✶ ✶ ✶</div>
+  hand-pasted in HTML. set in archivo black, fraunces, caveat &amp; space mono.<br/>
+  no trackers, no popups, just shapes and stickers. © 2026.
+</footer>
+
+</body>
+</html>
