@@ -201,116 +201,112 @@
 <header class="post-header">
   <div class="post-meta"><span>2026 · 05</span><span>7 min read</span><span>@incyashraj</span></div>
   <h1>universal <span class="hl">protocols</span> are becoming important in the ai era.</h1>
-  <span class="post-lede">MCP connects agents to tools. A2A connects agents to other agents. The next missing boundary is execution.</span>
+  <span class="post-lede">MCP connects agents to tools. A2A connects agents to other agents. But where does the generated software actually run — and who checks what it's allowed to do?</span>
 </header>
 
 <hr class="divider" />
 
 <article class="post-body">
 
-  <p>The AI stack is moving from isolated chatbots toward connected systems. Agents will call tools, talk to other agents, create small apps, and generate local utilities.</p>
+  <p>A few months ago, most AI systems were isolated. You gave a model a prompt, it gave you text. That was the whole interaction. Now those same models are being wired into tools, databases, calendars, file systems — and starting to talk to each other. The AI stack is getting connected, and to do that it needs shared languages.</p>
 
-  <p>When that happens, the hard problem is no longer only whether code can be written. It is whether the software can be run safely, moved across machines, and trusted by the user.</p>
+  <p>That's what these protocols are about. Not hype, not marketing — actual interfaces that let different parts of an AI system understand each other without custom glue code.</p>
 
-  <blockquote>If AI creates more software, the runtime becomes the trust boundary.</blockquote>
+  <h2>mcp: a shared plug standard</h2>
 
-  <p>That is why universal protocols matter. They reduce custom integration work. They make ecosystems easier to connect. They create shared boundaries that developers can build around.</p>
+  <p>Before MCP, if you wanted your AI assistant to read a file, call an API, or search a database, someone had to write a custom integration for every pairing. Every model, every tool, its own connector. It was messy and it didn't scale.</p>
 
-  <p>This is good for Layer36 because Layer36 is built around the same direction, but at a different layer of the stack.</p>
+  <p>The Model Context Protocol solves this the same way USB solved the connector problem. You define a server that exposes a capability — a file reader, a web search, a calendar, whatever — and any MCP-compatible client can talk to it. The protocol is the common language. You build a tool once and every MCP client can use it.</p>
 
-  <h2>the ai stack is standardizing</h2>
+  <blockquote>MCP gives AI agents hands. They can reach out and actually touch things.</blockquote>
 
-  <p>The clearest example is the Model Context Protocol, or MCP. MCP gives AI applications a common way to connect with tools, APIs, files, databases, and external systems. Instead of every model and every tool needing a separate integration, the ecosystem can converge around a shared interface.</p>
+  <p>Anthropic published MCP as an open standard, and it spread quickly. OpenAI, Google, and a growing number of developer tools now support it. When a protocol catches on this fast, it usually means it was solving a real pain.</p>
 
-  <p>Agent2Agent, or A2A, points in another direction. It gives agents a way to communicate and collaborate with other agents, even when they are built by different teams or frameworks.</p>
+  <h2>a2a: agents talking to agents</h2>
 
-  <p>These protocols are not the whole AI stack. They are signs of where the stack is going. AI systems need common language between parts that used to be isolated.</p>
+  <p>MCP handles the agent-to-tool relationship. A2A — Agent to Agent — handles what happens when agents need to talk to each other.</p>
+
+  <p>As AI systems get more capable, people are building pipelines where one agent orchestrates others. A planning agent delegates to a research agent, which delegates to a writing agent. But if those agents were built by different teams, on different frameworks, they can't coordinate without someone writing the translation layer.</p>
+
+  <p>A2A is Google's answer to that. An orchestrator agent can hand off a task to a specialized agent and get structured results back — without caring about how that agent was built underneath. They share a protocol, so they can collaborate.</p>
 
   <div class="protocol-card" aria-label="AI protocol stack">
     <div class="protocol-row">
       <div class="protocol-name">A2A</div>
-      <div class="protocol-copy"><b>agent to agent</b><span>A common way for agents to discover, communicate, and collaborate.</span></div>
+      <div class="protocol-copy"><b>agent to agent</b><span>A common way for agents to discover, communicate, and hand off tasks to each other.</span></div>
     </div>
     <div class="protocol-row">
       <div class="protocol-name">MCP</div>
-      <div class="protocol-copy"><b>agent to tools and data</b><span>A common way for AI systems to reach tools, APIs, resources, and context.</span></div>
+      <div class="protocol-copy"><b>agent to tools and data</b><span>A common way for AI systems to reach tools, APIs, files, and external context.</span></div>
     </div>
     <div class="protocol-row">
       <div class="protocol-name">Layer36</div>
-      <div class="protocol-copy"><b>generated app to host operating system</b><span>A runtime model for portable software artifacts, explicit permissions, and native host behavior.</span></div>
+      <div class="protocol-copy"><b>generated app to host machine</b><span>A runtime model for portable software artifacts, explicit permissions, and native host behavior.</span></div>
     </div>
   </div>
 
-  <h2>the missing boundary is execution</h2>
+  <h2>the question neither of them answers</h2>
 
-  <p>MCP can help an agent call a tool. A2A can help agents talk to one another. But once an agent or developer creates a local tool, there is still a practical question:</p>
+  <p>MCP and A2A cover a lot of ground. But there's a question they leave open: once an agent creates a small tool or app, where does that actually run? And how does the machine know it's safe to let it run?</p>
 
-  <p><strong>Where does that software run, what can it access, and how does the user know it is safe?</strong></p>
+  <p>Today, AI coding tools can write a script, generate a CLI utility, or produce a working app. But the output is usually a loose file — a Python script, a shell command, a compiled binary. You have to decide whether to run it. If you do run it, it probably has access to your entire file system, can make arbitrary network requests, and can read things it has no business reading. That's just how most software works — it inherits whatever permissions the operating system is willing to give a process.</p>
 
-  <p>Today, this is still fragmented. Generated scripts often become loose files. Small utilities become platform-specific builds. Internal tools are copied around without a clear permission model. The user is left to trust the source, inspect the code, or run it anyway.</p>
+  <p>When the author is a person you trust, that's usually fine. When the author is an automated system that generated a hundred small tools this week, it's a harder question.</p>
 
-  <p>That is not enough if AI dramatically increases the number of small software artifacts.</p>
+  <blockquote>The problem isn't whether AI can write code. It's whether that code can run somewhere safe.</blockquote>
+
+  <h2>where layer36 fits in</h2>
+
+  <p>This is the gap I built Layer36 to sit in. Not between agent and tool — that's MCP. Not between agent and agent — that's A2A. Between generated software and the host machine.</p>
+
+  <p>The idea has three parts. First, WebAssembly as the execution format — a <code>.wasm</code> binary is portable and sandboxed by design. The same file runs on macOS, Windows, and Linux without any changes. Second, a single API surface called UAPI — instead of letting apps talk directly to the OS using each platform's different syscall conventions, everything goes through one interface. The runtime translates it for the host underneath.</p>
+
+  <p>Third, and most important, capability checks by default. Every UAPI call goes through UCap, a permission layer that defaults to deny. An app declares what it needs — read this directory, open a network connection, write output. The user grants it. Nothing else runs. No silent access, no ambient authority.</p>
 
   <div class="runtime-strip" aria-label="Layer36 execution boundary">
     <div class="runtime-box">
       <strong>generated software</strong>
-      <span>Created by a developer, an AI coding tool, or an agent workflow.</span>
+      <span>Written by a developer, an AI coding tool, or an agent workflow.</span>
     </div>
     <div class="arrow">→</div>
     <div class="runtime-box layer36">
       <strong>layer36 runtime</strong>
-      <span>Portable artifact, UAPI calls, UCap permission checks, and a host adapter boundary.</span>
+      <span>Portable artifact, UAPI calls, UCap permission checks, host adapter boundary.</span>
     </div>
     <div class="arrow">→</div>
     <div class="runtime-box">
       <strong>host machine</strong>
-      <span>Files, network, time, UI, devices, storage, and native operating system behavior.</span>
+      <span>Files, network, time, UI, storage, and native OS behavior.</span>
     </div>
   </div>
 
-  <h2>why this creates value for layer36</h2>
+  <h2>why default-deny matters</h2>
 
-  <p>Protocols become valuable when they sit at a recurring boundary. For Layer36, that boundary is the moment software tries to become real on a machine.</p>
+  <p>Most software runs with more authority than it actually needs. A notes app that can read your whole file system. A CLI tool that can make any network request. We accept this because asking users to grant permissions for every little thing felt like too much friction.</p>
 
-  <p>Layer36 is not only trying to make apps cross-platform. The deeper bet is that portable software also needs a permission model. An app should not silently reach into the file system, network, clipboard, microphone, or local storage just because it can run.</p>
+  <p>But capability discipline forces you to be honest. You have to say what your app actually needs. That permission surface is then visible — you can read it in a manifest, audit it, restrict it. And if something goes wrong, the damage is bounded. A compromised dependency can only do what you said it could do, not everything the OS will allow.</p>
 
-  <p>The value comes from combining three things:</p>
+  <p>This isn't a new idea. It goes back to the object-capability model, to Plan 9, to decades of thinking about the right boundary between a program and its environment. Layer36 is an attempt to make that practical for software people actually ship today.</p>
+
+  <h2>how the three fit together</h2>
+
+  <p>MCP, A2A, and Layer36 each sit at a different boundary in the same stack. An agent might use MCP to pull context from a database, coordinate with a specialist agent over A2A, write a small utility in response, and ship that utility as a Layer36 artifact that runs safely on your machine.</p>
 
   <ul class="mini-list">
-    <li><strong>Portability.</strong> One app artifact should be able to move across hosts.</li>
-    <li><strong>Permission clarity.</strong> The host should know what the app is asking for before it grants power.</li>
-    <li><strong>Native behavior.</strong> Approved requests should still become real behavior on the machine through host adapters.</li>
+    <li><strong>MCP:</strong> agent ↔ tools and data</li>
+    <li><strong>A2A:</strong> agent ↔ agent</li>
+    <li><strong>Layer36:</strong> generated software ↔ host machine</li>
   </ul>
 
-  <p>If Layer36 gets this right, it becomes a control point for AI-era software. Developers can build small tools faster. Users can run them with more confidence. Companies can define what generated software is allowed to do.</p>
+  <p>None of them replace each other. They're solving different problems at different layers. The pattern they share is the same one: define a clear boundary, give it a protocol, and let the ecosystem build around it.</p>
 
-  <h2>why now</h2>
+  <h2>where this is going</h2>
 
-  <p>The timing matters. AI coding tools are making software creation cheaper. At the same time, the broader AI infrastructure stack is moving toward interoperability. MCP and A2A are not just technical details. They show that the market is becoming comfortable with protocol-shaped infrastructure.</p>
+  <p>Layer36 v0.1.0-rc1 is out now — a desktop runtime in Rust with Wasmtime, a CLI, UAPI for CLI-style apps, UCap capability checks, and the same <code>.wasm</code> binary running on Windows, macOS, and Linux. It's early, the surface is deliberately small, but the portable execution is working.</p>
 
-  <p>Layer36 takes that same movement and applies it to runtime execution.</p>
+  <p>The longer path is extending the host adapters — more capabilities, more platform surface, eventually mobile feasibility. The goal stays simple: software that travels like a file, runs in a known sandbox, and asks before it touches anything.</p>
 
-  <blockquote>The claim is not that Layer36 replaces MCP or A2A. It lives at a different boundary.</blockquote>
-
-  <p>MCP is about reaching tools and context. A2A is about agent collaboration. Layer36 is about running software safely and portably on the host.</p>
-
-  <h2>the investor lens</h2>
-
-  <p>From an investor perspective, this matters because protocol layers can become infrastructure. They are not only features. They can become the place where developers build, users trust, and ecosystems form.</p>
-
-  <p>Layer36 is still early. The current proof is a runtime foundation: WebAssembly components, a universal API surface, capability checks, manifests, sample apps, and Phase 3 work toward a desktop developer preview. The next step is developer proof.</p>
-
-  <p>The question is not whether the world wants another framework. The better question is:</p>
-
-  <blockquote>In a world where agents generate more software, who owns the safe execution boundary?</blockquote>
-
-  <p>Layer36 is my answer to that question.</p>
-
-  <h2>where this goes</h2>
-
-  <p>If the thesis is right, Layer36 can grow from a runtime proof into a developer platform. First, safe portable local tools. Then a desktop developer preview. Then SDKs, packaging, mobile feasibility, distribution foundations, and eventually a trusted app layer for AI-generated software.</p>
-
-  <p>The long-term outcome is simple to say and hard to build: software should be easier to move, safer to run, and easier to trust.</p>
+  <blockquote>If AI is going to generate more software, the runtime is where trust actually gets enforced.</blockquote>
 
   <h2>references</h2>
 
