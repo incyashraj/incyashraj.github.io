@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Universal protocols are becoming important in the AI era — @incyashraj</title>
+<meta name="description" content="MCP connects agents to tools. A2A connects agents to agents. Layer36 is about the execution boundary: how AI-generated software runs safely on real machines." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Caveat:wght@500;700&family=Inter:wght@400;500;700&family=Space+Mono:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400;1,9..144,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F5EBD7; --paper-2: #FDF6E3; --ink: #1B1814; --ink-2: #44403B;
+    --red: #D14B3E; --blue: #2A5E8E; --yellow: #F5C944; --green: #5A8C5A;
+    --tape: rgba(245,201,68,0.55); --tape-2: rgba(232,155,155,0.55);
+    --display: "Archivo Black", system-ui, sans-serif;
+    --serif: "Fraunces", Georgia, serif; --hand: "Caveat", cursive;
+    --sans: "Inter", system-ui, sans-serif; --mono: "Space Mono", monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper); color: var(--ink); font-family: var(--serif);
+    font-size: 18px; line-height: 1.75; -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(rgba(27,24,20,0.04) 1px, transparent 1px),
+      radial-gradient(rgba(27,24,20,0.03) 1.2px, transparent 1.2px);
+    background-size: 4px 4px, 9px 9px; background-position: 0 0, 2px 2px;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .top {
+    border-bottom: 2px dashed var(--ink); padding: 14px 32px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--mono); font-size: 12px; flex-wrap: wrap; gap: 10px;
+  }
+  .top .badge {
+    background: var(--ink); color: var(--paper); padding: 4px 10px;
+    font-family: var(--hand); font-size: 18px; transform: rotate(-2deg);
+    display: inline-block;
+  }
+  .top .back {
+    font-family: var(--mono); font-size: 12px; border-bottom: 2px solid transparent;
+    padding-bottom: 2px; transition: border-color .2s;
+  }
+  .top .back:hover { border-color: var(--red); }
+
+  .post-header { max-width: 720px; margin: 60px auto 0; padding: 0 32px; }
+  .post-meta {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
+    color: var(--red); text-transform: uppercase; margin-bottom: 20px;
+    display: flex; gap: 24px; flex-wrap: wrap;
+  }
+  .post-header h1 {
+    font-family: var(--display); font-size: clamp(36px, 6vw, 68px);
+    line-height: 0.95; letter-spacing: -0.03em; text-transform: lowercase;
+    margin: 0 0 24px;
+  }
+  .post-header h1 .hl {
+    background: linear-gradient(transparent 55%, var(--yellow) 55%, var(--yellow) 95%, transparent 95%);
+    padding: 0 4px;
+  }
+  .post-lede {
+    font-family: var(--hand); font-size: clamp(22px, 2.8vw, 30px);
+    color: var(--ink-2); transform: rotate(-0.8deg); display: block;
+    margin-bottom: 40px; line-height: 1.3;
+  }
+
+  .divider {
+    max-width: 720px; margin: 0 auto 48px; padding: 0 32px;
+    border: none; border-top: 2px dashed var(--ink-2);
+  }
+
+  .post-body { max-width: 720px; margin: 0 auto 80px; padding: 0 32px; }
+  .post-body p { margin: 0 0 1.6em; }
+  .post-body h2 {
+    font-family: var(--display); font-size: clamp(26px, 3.5vw, 40px);
+    line-height: 1; letter-spacing: -0.025em; text-transform: lowercase;
+    margin: 2.2em 0 0.6em;
+  }
+  .post-body h3 {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--red); margin: 2em 0 0.5em;
+  }
+  .post-body strong { color: var(--ink); }
+  .post-body a { border-bottom: 2px solid var(--yellow); transition: border-color .2s; }
+  .post-body a:hover { border-color: var(--red); }
+
+  .post-body blockquote {
+    margin: 2em 0; padding: 20px 24px; background: var(--paper-2);
+    border: 1.5px solid var(--ink); box-shadow: 3px 4px 0 rgba(27,24,20,0.14);
+    transform: rotate(-0.4deg); font-family: var(--hand);
+    font-size: clamp(20px, 2.4vw, 26px); color: var(--ink-2);
+    line-height: 1.4; position: relative;
+  }
+  .post-body blockquote::before {
+    content: ""; position: absolute; top: -12px; left: 24px; width: 60px; height: 18px;
+    background: var(--tape); transform: rotate(-3deg);
+  }
+
+  .post-body code {
+    font-family: var(--mono); font-size: 0.82em; background: var(--paper-2);
+    border: 1px solid rgba(27,24,20,0.15); padding: 2px 6px;
+  }
+
+  .protocol-card {
+    margin: 2.2em 0;
+    background: var(--paper-2);
+    border: 1.5px solid var(--ink);
+    box-shadow: 4px 5px 0 rgba(27,24,20,0.15);
+    transform: rotate(0.25deg);
+    padding: 22px;
+    position: relative;
+  }
+  .protocol-card::before {
+    content: ""; position: absolute; top: -13px; right: 34px; width: 72px; height: 18px;
+    background: var(--tape-2); transform: rotate(3deg);
+  }
+  .protocol-row {
+    display: grid; grid-template-columns: 90px 1fr; gap: 18px;
+    padding: 16px 0; border-bottom: 1.5px dashed rgba(27,24,20,0.28);
+  }
+  .protocol-row:last-child { border-bottom: none; }
+  .protocol-name {
+    font-family: var(--display); color: var(--blue); font-size: 22px;
+    line-height: 1; text-transform: uppercase;
+  }
+  .protocol-copy b {
+    display: block; font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--red); margin-bottom: 4px;
+  }
+  .protocol-copy span { color: var(--ink-2); }
+
+  .runtime-strip {
+    margin: 2.2em 0;
+    display: grid; grid-template-columns: 1fr auto 1.1fr auto 1fr;
+    gap: 10px; align-items: stretch;
+    font-family: var(--sans);
+  }
+  .runtime-box {
+    background: var(--paper-2); border: 1.5px solid var(--ink);
+    box-shadow: 2px 3px 0 rgba(27,24,20,0.12);
+    padding: 16px; min-height: 130px;
+  }
+  .runtime-box.layer36 {
+    background: rgba(245,201,68,0.25);
+  }
+  .runtime-box strong {
+    display: block; font-family: var(--display); font-size: 18px;
+    line-height: 1.05; text-transform: lowercase; margin-bottom: 8px;
+  }
+  .runtime-box span {
+    font-size: 14px; line-height: 1.45; color: var(--ink-2);
+  }
+  .arrow {
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display); color: var(--red); font-size: 22px;
+  }
+
+  .mini-list { margin: 0 0 1.6em; padding-left: 22px; }
+  .mini-list li { margin-bottom: 0.7em; }
+
+  .post-footer {
+    max-width: 720px; margin: 0 auto 80px; padding: 40px 32px 0;
+    border-top: 2px dashed var(--ink-2); display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: wrap; gap: 16px;
+    font-family: var(--mono); font-size: 12px; color: var(--ink-2);
+  }
+  .post-footer a {
+    font-family: var(--hand); font-size: 22px; color: var(--red);
+    border-bottom: 2px solid transparent; transition: border-color .2s;
+  }
+  .post-footer a:hover { border-color: var(--red); }
+
+  footer {
+    text-align: center; padding: 20px 20px 60px; font-family: var(--hand);
+    font-size: 20px; color: var(--ink-2); border-top: 2px dashed var(--ink);
+  }
+  footer .stars { letter-spacing: 0.4em; font-family: var(--display); color: var(--red); }
+
+  @media (max-width: 720px) {
+    .post-header, .post-body, .post-footer { padding: 0 20px; }
+    .top { padding: 14px 20px; }
+    .protocol-row { grid-template-columns: 1fr; gap: 6px; }
+    .runtime-strip { grid-template-columns: 1fr; }
+    .arrow { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <a href="/" class="badge">ZINE</a>
+  <a href="/#writing" class="back">← back to writing</a>
+  <span style="font-family:var(--hand);font-size:20px;">vol. 37</span>
+</div>
+
+<header class="post-header">
+  <div class="post-meta"><span>2026 · 05</span><span>7 min read</span><span>@incyashraj</span></div>
+  <h1>universal <span class="hl">protocols</span> are becoming important in the ai era.</h1>
+  <span class="post-lede">MCP connects agents to tools. A2A connects agents to other agents. The next missing boundary is execution.</span>
+</header>
+
+<hr class="divider" />
+
+<article class="post-body">
+
+  <p>The AI stack is moving from isolated chatbots toward connected systems. Agents will call tools, talk to other agents, create small apps, and generate local utilities.</p>
+
+  <p>When that happens, the hard problem is no longer only whether code can be written. It is whether the software can be run safely, moved across machines, and trusted by the user.</p>
+
+  <blockquote>If AI creates more software, the runtime becomes the trust boundary.</blockquote>
+
+  <p>That is why universal protocols matter. They reduce custom integration work. They make ecosystems easier to connect. They create shared boundaries that developers can build around.</p>
+
+  <p>This is good for Layer36 because Layer36 is built around the same direction, but at a different layer of the stack.</p>
+
+  <h2>the ai stack is standardizing</h2>
+
+  <p>The clearest example is the Model Context Protocol, or MCP. MCP gives AI applications a common way to connect with tools, APIs, files, databases, and external systems. Instead of every model and every tool needing a separate integration, the ecosystem can converge around a shared interface.</p>
+
+  <p>Agent2Agent, or A2A, points in another direction. It gives agents a way to communicate and collaborate with other agents, even when they are built by different teams or frameworks.</p>
+
+  <p>These protocols are not the whole AI stack. They are signs of where the stack is going. AI systems need common language between parts that used to be isolated.</p>
+
+  <div class="protocol-card" aria-label="AI protocol stack">
+    <div class="protocol-row">
+      <div class="protocol-name">A2A</div>
+      <div class="protocol-copy"><b>agent to agent</b><span>A common way for agents to discover, communicate, and collaborate.</span></div>
+    </div>
+    <div class="protocol-row">
+      <div class="protocol-name">MCP</div>
+      <div class="protocol-copy"><b>agent to tools and data</b><span>A common way for AI systems to reach tools, APIs, resources, and context.</span></div>
+    </div>
+    <div class="protocol-row">
+      <div class="protocol-name">Layer36</div>
+      <div class="protocol-copy"><b>generated app to host operating system</b><span>A runtime model for portable software artifacts, explicit permissions, and native host behavior.</span></div>
+    </div>
+  </div>
+
+  <h2>the missing boundary is execution</h2>
+
+  <p>MCP can help an agent call a tool. A2A can help agents talk to one another. But once an agent or developer creates a local tool, there is still a practical question:</p>
+
+  <p><strong>Where does that software run, what can it access, and how does the user know it is safe?</strong></p>
+
+  <p>Today, this is still fragmented. Generated scripts often become loose files. Small utilities become platform-specific builds. Internal tools are copied around without a clear permission model. The user is left to trust the source, inspect the code, or run it anyway.</p>
+
+  <p>That is not enough if AI dramatically increases the number of small software artifacts.</p>
+
+  <div class="runtime-strip" aria-label="Layer36 execution boundary">
+    <div class="runtime-box">
+      <strong>generated software</strong>
+      <span>Created by a developer, an AI coding tool, or an agent workflow.</span>
+    </div>
+    <div class="arrow">→</div>
+    <div class="runtime-box layer36">
+      <strong>layer36 runtime</strong>
+      <span>Portable artifact, UAPI calls, UCap permission checks, and a host adapter boundary.</span>
+    </div>
+    <div class="arrow">→</div>
+    <div class="runtime-box">
+      <strong>host machine</strong>
+      <span>Files, network, time, UI, devices, storage, and native operating system behavior.</span>
+    </div>
+  </div>
+
+  <h2>why this creates value for layer36</h2>
+
+  <p>Protocols become valuable when they sit at a recurring boundary. For Layer36, that boundary is the moment software tries to become real on a machine.</p>
+
+  <p>Layer36 is not only trying to make apps cross-platform. The deeper bet is that portable software also needs a permission model. An app should not silently reach into the file system, network, clipboard, microphone, or local storage just because it can run.</p>
+
+  <p>The value comes from combining three things:</p>
+
+  <ul class="mini-list">
+    <li><strong>Portability.</strong> One app artifact should be able to move across hosts.</li>
+    <li><strong>Permission clarity.</strong> The host should know what the app is asking for before it grants power.</li>
+    <li><strong>Native behavior.</strong> Approved requests should still become real behavior on the machine through host adapters.</li>
+  </ul>
+
+  <p>If Layer36 gets this right, it becomes a control point for AI-era software. Developers can build small tools faster. Users can run them with more confidence. Companies can define what generated software is allowed to do.</p>
+
+  <h2>why now</h2>
+
+  <p>The timing matters. AI coding tools are making software creation cheaper. At the same time, the broader AI infrastructure stack is moving toward interoperability. MCP and A2A are not just technical details. They show that the market is becoming comfortable with protocol-shaped infrastructure.</p>
+
+  <p>Layer36 takes that same movement and applies it to runtime execution.</p>
+
+  <blockquote>The claim is not that Layer36 replaces MCP or A2A. It lives at a different boundary.</blockquote>
+
+  <p>MCP is about reaching tools and context. A2A is about agent collaboration. Layer36 is about running software safely and portably on the host.</p>
+
+  <h2>the investor lens</h2>
+
+  <p>From an investor perspective, this matters because protocol layers can become infrastructure. They are not only features. They can become the place where developers build, users trust, and ecosystems form.</p>
+
+  <p>Layer36 is still early. The current proof is a runtime foundation: WebAssembly components, a universal API surface, capability checks, manifests, sample apps, and Phase 3 work toward a desktop developer preview. The next step is developer proof.</p>
+
+  <p>The question is not whether the world wants another framework. The better question is:</p>
+
+  <blockquote>In a world where agents generate more software, who owns the safe execution boundary?</blockquote>
+
+  <p>Layer36 is my answer to that question.</p>
+
+  <h2>where this goes</h2>
+
+  <p>If the thesis is right, Layer36 can grow from a runtime proof into a developer platform. First, safe portable local tools. Then a desktop developer preview. Then SDKs, packaging, mobile feasibility, distribution foundations, and eventually a trusted app layer for AI-generated software.</p>
+
+  <p>The long-term outcome is simple to say and hard to build: software should be easier to move, safer to run, and easier to trust.</p>
+
+  <h2>references</h2>
+
+  <p>Anthropic introduced MCP as an open standard for connecting AI systems with data sources: <a href="https://anthropic.com/news/model-context-protocol">Introducing the Model Context Protocol</a>.</p>
+
+  <p>OpenAI documents support for remote MCP servers and connectors in its developer platform: <a href="https://developers.openai.com/api/docs/guides/tools-connectors-mcp">MCP and Connectors</a>.</p>
+
+  <p>Google introduced A2A as an open protocol for agent interoperability that complements MCP: <a href="https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/">Announcing the Agent2Agent Protocol</a>.</p>
+
+</article>
+
+<div class="post-footer">
+  <span>© 2026 · Yashraj Bhushan Pardeshi</span>
+  <a href="mailto:incyashraj@gmail.com">reply by email →</a>
+</div>
+
+<footer>
+  <div class="stars">✶ ✶ ✶</div>
+  hand-pasted in HTML. © 2026 · Yashraj Bhushan Pardeshi.
+</footer>
+
+</body>
+</html>
